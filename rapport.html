@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mollo for Rivals 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column on a night-sky ground, wide rows only for image boards and the frame-data table.
+   Single dark look on purpose: fireworks read against night. Warm ramp amber -> rose -> plum -> indigo. */
+:root {
+  color-scheme: dark;
+  --ground: #120d16;
+  --panel: #1d1522;
+  --line: #3a2a40;
+  --text: #efe4dc;
+  --muted: #b3a2ad;
+  --fuse: #ffb347;      /* lit fuse, primary accent */
+  --cherry: #e8475d;    /* cherry bomb, problems */
+  --plum: #8c5aa8;      /* riot suit */
+  --ok: #8fd19e;        /* done */
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+body { background: var(--ground); color: var(--text); font: 17px/1.6 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1; margin: 0; }
+h1 { font-size: clamp(56px, 11vw, 120px); font-weight: 900; letter-spacing: .01em; text-transform: uppercase; }
+h1 .to { color: var(--fuse); }
+h2 { font-size: clamp(32px, 5vw, 46px); font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+h3 { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--fuse); }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font: 600 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 20px; color: var(--text); }
+.muted { color: var(--muted); }
+a { color: var(--fuse); }
+code { font-family: var(--mono); font-size: .86em; color: var(--fuse); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero img { border-radius: 4px; border: 1px solid var(--line); }
+.status { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill { font: 600 13px/1.3 var(--mono); padding: 9px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pill.wait { color: var(--fuse); border-color: color-mix(in srgb, var(--fuse) 45%, var(--line)); }
+.counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.counts div { background: var(--ground); padding: 18px 16px; display: grid; gap: 4px; }
+.counts b { font: 800 44px/1 var(--display); color: var(--fuse); font-variant-numeric: tabular-nums; }
+.counts span { font-size: 14px; color: var(--muted); }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figure img { width: 100%; border-radius: 3px; border: 1px solid var(--line); background: #0c0910; }
+figcaption { font-size: 14px; color: var(--muted); }
+.gifs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.gifs figcaption { font-family: var(--mono); font-size: 13px; color: var(--text); }
+.gifs figcaption span { color: var(--muted); }
+.diagram { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+.diagram pre { margin: 0; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel); position: sticky; top: 0; }
+td.n { font-family: var(--mono); }
+tr.grp td { font: 700 13px var(--display); letter-spacing: .08em; text-transform: uppercase; color: #c9a3e0; background: var(--ground); padding-top: 14px; }
+.issues { display: grid; gap: 12px; }
+.issue { display: grid; grid-template-columns: 4px minmax(0, 1fr); gap: 16px; }
+.issue::before { content: ""; background: var(--cherry); border-radius: 2px; }
+.issue.fixed::before { background: var(--ok); }
+.issue h4 { margin: 0 0 4px; font: 700 17px var(--body); }
+.issue p { color: var(--muted); font-size: 16px; }
+.tag { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin-left: 8px; }
+.issue.fixed .tag { color: var(--ok); }
+.issue .tag { color: var(--cherry); }
+ol.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+ol.steps li::marker { font-family: var(--mono); color: var(--fuse); }
+.ask { background: var(--panel); border: 1px solid color-mix(in srgb, var(--fuse) 40%, var(--line)); border-radius: 6px; padding: 20px 22px; display: grid; gap: 12px; }
+.files { font-family: var(--mono); font-size: 14px; display: grid; gap: 6px; }
+.files div { display: grid; grid-template-columns: minmax(0, 22ch) minmax(0, 1fr); gap: 16px; }
+.files span { color: var(--muted); font-family: var(--body); }
+@media (max-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .files div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+:focus-visible { outline: 2px solid var(--fuse); outline-offset: 3px; }
+
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 14px 20px; border-bottom: 1px solid var(--line); font: 600 13px/1.4 var(--mono); }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a[aria-current] { color: var(--fuse); }
+.site-nav a:hover { color: var(--text); }
+</style></head><body>
+
+<nav class="site-nav"><a href="index.html">Mollo → R2</a><a href="rapport.html" aria-current=page>Build report</a><a href="guide.html">Beginner guide</a><a href="attaques.html">Attack sheet</a></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div style="display:grid;gap:20px">
+    <h1>Mollo <span class="to">→</span> R2</h1>
+    <p class="lede">Giik's moth with the fuse antennae, rebuilt as a full 3D fighter for the Rivals 2 Workshop. Phase 1 is done on the Blender side: model, rig, 125 animations, 36 attacks with their frame data. Next is the Unreal Mod Kit, which is not installed yet.</p>
+    <div class="status">
+      <span class="pill ok">Model + rig: done</span>
+      <span class="pill ok">Animations: done (first pass)</span>
+      <span class="pill ok">Attack data: done</span>
+      <span class="pill wait">Unreal import: waiting on Mod Kit</span>
+      <span class="pill wait">Bomb system in Lua: phase 2</span>
+    </div>
+  </div>
+  <figure>
+    <img src="img/r1.jpg" alt="Original Rivals 1 Workshop key art of Mollo holding a cherry bomb">
+    <figcaption>Source: Giik's Rivals 1 Workshop key art (Steam item 1871989159).</figcaption>
+  </figure>
+</header>
+
+<section>
+  <div class="counts">
+    <div><b>195</b><span>cm tall, antennae included (Zetterburn is 178)</span></div>
+    <div><b>23.9k</b><span>triangles (Workshop average is ~50k)</span></div>
+    <div><b>56</b><span>bones, official R2 names</span></div>
+    <div><b>125</b><span>animations at 60 fps</span></div>
+    <div><b>36</b><span>attacks with windows + hitboxes</span></div>
+    <div><b>4</b><span>props: bomb, spray can, flare gun, bat</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>The pipeline</h2>
+  <p class="col muted">Every step is a script, so changing a pose or a frame count rebuilds everything in about a minute. Green is done; orange needs the Mod Kit.</p>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  A[R1 key art<br/>Steam Workshop] --> B[Grok concept<br/>front + back A-pose]
+  B --> C[TRELLIS<br/>image to 3D]
+  C --> D[rig_mollo.py<br/>weld, skeleton, heat weights,<br/>cape split by raycast]
+  D --> E[props_mollo.py<br/>4 props on own bones]
+  E --> F[animer.py<br/>poses, leg IK, visual bake]
+  F --> G[spec_attaques.py<br/>hitbox check renders + JSON]
+  F --> H[exporter.py<br/>SK + AN FBX]
+  F --> I[textures.py<br/>BC, N, ORMS]
+  H --> J[Unreal Mod Kit<br/>import, materials, HB_ capsules]
+  G --> K[ATT_ assets<br/>windows, hitboxes, on-hit]
+  J --> K
+  K --> L[Lua<br/>bombs, fuse, flare aim,<br/>jab spray, aerial charge]
+  L --> M[Playtest]
+  classDef done fill:#1f3326,stroke:#8fd19e,color:#efe4dc;
+  classDef todo fill:#3a2a14,stroke:#ffb347,color:#efe4dc;
+  class A,B,C,D,E,F,G,H,I done;
+  class J,K,L,M todo;
+</pre>
+  </div>
+</section>
+
+<section>
+  <h2>Model</h2>
+  <p class="col">The concept was generated from the R1 key art, front and back in A-pose, in the stylized toon look of Rivals 2. TRELLIS built the textured mesh from both views. The result is turned 180° to face −Y as the docs require, scaled in Blender at unit scale 0.01, and stands on z = 0.</p>
+  <div class="duo">
+    <figure><img src="img/concept_front.jpg" alt="Concept art of Mollo from the front in A-pose"><figcaption>Concept, front. The belt bomb came out as a literal cherry; the texture can fix that.</figcaption></figure>
+    <figure><img src="img/concept_back.jpg" alt="Concept art of Mollo from the back, showing the cape and bandana knot"><figcaption>Concept, back: tattered moth-wing cape, bandana knot.</figcaption></figure>
+  </div>
+  <figure><img src="img/trellis.jpg" alt="Four views of the TRELLIS mesh: back, three-quarter back, side, front"><figcaption>TRELLIS mesh, 23k triangles. Back / ¾ back / side / front.</figcaption></figure>
+</section>
+
+<section>
+  <h2>Rig</h2>
+  <p class="col">The skeleton copies the naming of the official reference rigs (Wrastor, Zetterburn): <code>Root_M</code>, <code>Spine1_M</code>, <code>Shoulder_L</code>, <code>Hip_L</code>, a free-floating <code>Grab_M</code>. Mollo adds three-segment antennae, a bandana tail, a 3×4 cape chain and one bone per prop. Getting clean deformation took four rounds; the problems are listed below.</p>
+  <div class="duo">
+    <figure><img src="img/rig_v1.jpg" alt="First rig test with the mesh tearing at every joint"><figcaption>v1: the mesh tears at every bend.</figcaption></figure>
+    <figure><img src="img/rig_v7.jpg" alt="Final rig tests: kick, leg back, arms, crouch, torso twist, cape"><figcaption>v7: kick, leg back, arms, crouch, torso twist, cape flap. Clean.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2>Animation</h2>
+  <p class="col">Poses are written as data in axes anyone can read (X = his left, Y = his back, Z = up). The right side is mirrored from the left, grounded states run through leg IK so the feet stay planted, then everything is baked to plain bone curves for Unreal. This is the docs' "gameplay quality" pass: clear key poses and correct timing, not polished animation yet.</p>
+  <div class="gifs">
+    <figure><img src="img/Idle.gif" alt="Idle animation"><figcaption>Idle <span>· 80 f, loop</span></figcaption></figure>
+    <figure><img src="img/Run.gif" alt="Run animation"><figcaption>Run <span>· 24 f, ninja arms</span></figcaption></figure>
+    <figure><img src="img/DoubleJump.gif" alt="Double jump animation"><figcaption>DoubleJump <span>· wings open, flip</span></figcaption></figure>
+    <figure><img src="img/FTilt.gif" alt="Forward tilt animation"><figcaption>FTilt <span>· 9 / 5 / 21</span></figcaption></figure>
+    <figure><img src="img/NAir.gif" alt="Neutral air animation"><figcaption>NAir <span>· 2-hit cape spin</span></figcaption></figure>
+    <figure><img src="img/Jab3.gif" alt="Jab 3 spray animation"><figcaption>Jab3 <span>· spray can loop</span></figcaption></figure>
+    <figure><img src="img/UStrong.gif" alt="Up strong animation including charge"><figcaption>UStrong <span>· charge + 4-hit firework</span></figcaption></figure>
+    <figure><img src="img/DSpecial.gif" alt="Down special bat animation"><figcaption>DSpecial <span>· the bat, 38 f wind-up</span></figcaption></figure>
+  </div>
+  <p class="col muted">Covered: all the R2 movement states from the docs (ground, air, shield, dodges, hitstun, knockdown, ledge, getups, grabbed, items), the 4 bomb-strong variants, grabs, pummels and 4 throws. Mollo never had a grab in R1, so the throws are new designs.</p>
+</section>
+
+<section>
+  <h2>Attacks</h2>
+  <p class="col">Frame data comes straight from the Rivals Academy YAML (patch 2.1.5.6): every animation lasts exactly the R1 frame count. The strike pose lands on the first active frame. Each hitbox sits on a bone with a radius in cm, then gets checked in a render from both sides.</p>
+  <div class="duo">
+    <figure><img src="img/hitbox_a.jpg" alt="Hitbox check renders, first half: BAir to Jab1, red spheres on the active frame"><figcaption>Hitbox check, left and right views per move (first half).</figcaption></figure>
+    <figure><img src="img/hitbox_b.jpg" alt="Hitbox check renders, second half: Jab2 to UTilt"><figcaption>Second half. Throws show <code>Grab_M</code> releasing the opponent.</figcaption></figure>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Move</th><th>Frames (R1)</th><th>Damage</th><th>Angle</th><th>Landing lag</th><th>What it is in 3D</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="6">Ground</td></tr>
+        <tr><td>Jab 1 · 2 · 3</td><td class="n">5/2/12 · 2/3/16 · 8/loop/7</td><td class="n">3 · 4 · 2×n</td><td class="n">40 · 65 · 30</td><td></td><td>Left jab, right cross, flaming spray can on loop</td></tr>
+        <tr><td>Dash attack</td><td class="n">6/4/27</td><td class="n">4</td><td class="n">40</td><td></td><td>Shoulder slide; scoops up a grounded bomb on f9</td></tr>
+        <tr><td>F-tilt</td><td class="n">9/5/21</td><td class="n">9</td><td class="n">40</td><td></td><td>Straight riot-boot kick</td></tr>
+        <tr><td>U-tilt</td><td class="n">6/2·3/15</td><td class="n">8</td><td class="n">80</td><td></td><td>Headbutt upward, fuse antennae whip</td></tr>
+        <tr><td>D-tilt</td><td class="n">4/8/18</td><td class="n">5</td><td class="n">65</td><td></td><td>Low sweep</td></tr>
+        <tr class="grp"><td colspan="6">Air</td></tr>
+        <tr><td>N-air</td><td class="n">6/4·6/11</td><td class="n">2 + 5</td><td class="n">55</td><td class="n">6</td><td>Spin with the cape wings open</td></tr>
+        <tr><td>F-air</td><td class="n">5/charge/4/4/24</td><td class="n">9–14</td><td class="n">310</td><td class="n">12</td><td>Chargeable diving dropkick</td></tr>
+        <tr><td>B-air</td><td class="n">6/6/23</td><td class="n">8</td><td class="n">130</td><td class="n">9</td><td>Double back kick</td></tr>
+        <tr><td>U-air</td><td class="n">8/5·5/21</td><td class="n">3 + 6</td><td class="n">100 · 90</td><td class="n">6</td><td>Two upward swipes, antennae on the second</td></tr>
+        <tr><td>D-air</td><td class="n">8/9/14</td><td class="n">6 · 5</td><td class="n">270 · 70</td><td class="n">6</td><td>Stomp: soles spike, shins pop up</td></tr>
+        <tr class="grp"><td colspan="6">Strongs (+60 f charge)</td></tr>
+        <tr><td>F-strong</td><td class="n">12/3·3·3/30</td><td class="n">3·3·6</td><td class="n">20 · 45</td><td></td><td>Left-right flurry, two-hand shove</td></tr>
+        <tr><td>U-strong</td><td class="n">13/4·3·3·4/26</td><td class="n">2·2·2·5</td><td class="n">120 → 90</td><td></td><td>Firework fountain overhead, 4 crackles</td></tr>
+        <tr><td>D-strong</td><td class="n">12/3/40</td><td class="n">7 · 5</td><td class="n">90 · 75</td><td></td><td>Double fist slam, center + sides</td></tr>
+        <tr><td>Bomb tosses</td><td class="n">13/3/6 · 9/3/12 · 9/1/5</td><td class="n">5 · 5 · 0</td><td class="n">40 · 90</td><td></td><td>When a bomb is held, strongs throw it charged</td></tr>
+        <tr class="grp"><td colspan="6">Specials</td></tr>
+        <tr><td>N-special</td><td class="n">4/12/2</td><td class="n">bombs</td><td></td><td></td><td>Pulls a bomb from the belt: ↑ cherry, ← firecracker, → flashbang, ↓ finisher</td></tr>
+        <tr><td>F-special</td><td class="n">21/aim/14/9</td><td class="n">4</td><td class="n">80</td><td></td><td>Flare gun: aim a cursor, flare detonates bombs</td></tr>
+        <tr><td>U-special</td><td class="n">14/4/30/13</td><td class="n">4 + 2×5</td><td class="n">90</td><td></td><td>Rides a firework rocket, then pratfall</td></tr>
+        <tr><td>D-special</td><td class="n">38/3/3/22</td><td class="n">6 · 11 · 16</td><td class="n">50 · 40</td><td></td><td>Baseball bat; sweetspot at the tip</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="col muted">The full entry sheet with every hitbox, offset, radius, BKB/KBS and hitpause is in <code>export/ATTAQUES.md</code>, and as data in <code>export/attaques_mollo.json</code>. Knockback values are R1's as-is; they will need balancing in R2.</p>
+</section>
+
+<section>
+  <h2>What went wrong, and how it was fixed</h2>
+  <div class="issues">
+    <div class="issue fixed"><div><h4>The mesh tore at every joint<span class="tag">fixed</span></h4><p>TRELLIS delivers a mesh split along its UV seams, so each island was skinned on its own. Welding the vertices before skinning (16k → 11.5k vertices) closed every tear.</p></div></div>
+    <div class="issue fixed"><div><h4>Cape fused to the legs<span class="tag">fixed</span></h4><p>In a kick, the cape stretched into a sail between leg and floor. A distance threshold could not separate them because Mollo's legs are thick fur. Now a ray goes from each vertex toward the leg bone: if it crosses another surface first, the vertex is cape. 80 bridging triangles below the shorts are cut.</p></div></div>
+    <div class="issue fixed"><div><h4>Leg bones outside the legs<span class="tag">fixed</span></h4><p>The legs sit at ±24 cm, not ±13 cm as I first estimated from the concept. The leg axis is now measured from the cream fur color in the texture.</p></div></div>
+    <div class="issue fixed"><div><h4>Knees pointing sideways under IK<span class="tag">fixed</span></h4><p>A brute-force pole angle search gave 165° on one side and 0° on the other. Replaced by the analytic signed angle (−83° / −96°).</p></div></div>
+    <div class="issue fixed"><div><h4>Rotation signs<span class="tag">fixed</span></h4><p>Upward bones (spine, head, antennae) and downward bones (legs, cape) lean in opposite directions for the same axis. The first crouch looked like sitting on a chair, and the run cape stuck out in front. The convention is now written at the top of the pose file.</p></div></div>
+    <div class="issue fixed"><div><h4>Strikes landing late<span class="tag">fixed</span></h4><p>The hitbox check showed Jab 1 and the grabs hitting at belly height: the strike pose was keyed at the end of the active window. Strike poses now land on the first active frame.</p></div></div>
+    <div class="issue fixed"><div><h4>Right arm convention, Grab_M, prop palette<span class="tag">fixed</span></h4><p>Three specials used the left arm's signs on the right arm. Grab_M was never animated, so a thrown opponent would not have moved. The props texture was lost because a generated image has to be packed to survive saving.</p></div></div>
+    <div class="issue"><div><h4>Bat held along the forearm<span class="tag">open</span></h4><p>The bat points at the floor during the swing instead of across it. It needs a rotation on <code>PropBat_R</code> in the bat poses.</p></div></div>
+    <div class="issue"><div><h4>Ledge origin is a guess<span class="tag">open</span></h4><p>The docs never say where the character's origin sits when hanging. I put it at the ledge corner with the body below. To verify in the editor against a base character.</p></div></div>
+    <div class="issue"><div><h4>Hitbox offsets are in Blender bone space<span class="tag">open</span></h4><p>Unreal can swap bone axes on import, so offsets may need eyeballing per hitbox. The sheet gives the world position at the active frame for that.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Phase 2: in the Mod Kit</h2>
+  <ol class="steps col">
+    <li>Install the Rivals of Aether II Mod Kit near a drive root (<code>G:\R2ModKit</code>), launch with Steam running, let shaders compile (up to an hour).</li>
+    <li>Create a new 3D Character Mod named Mollo, open the content folder.</li>
+    <li>Reimport <code>SK_Mol_Default.fbx</code> over the template skeletal mesh, then <code>AN_Mol_Default.fbx</code>; import the 4 textures with their suffixes, make <code>MI_</code> instances of <code>MAT_Cha_Standard</code>.</li>
+    <li>Rebuild the <code>HB_</code> physics asset with capsules only, assign animation states in the character data.</li>
+    <li>Fill the <code>ATT_</code> assets from the entry sheet. If the editor's Python plugin is available, I can script this from the JSON.</li>
+    <li>Create the articles: 4 bomb types (holdable), the flare, then write the Lua for fuse timers, bomb selection, flare aim, spray can and aerial charge, using the in-editor Lua docs.</li>
+  </ol>
+  <div class="ask">
+    <h3>What I need from you</h3>
+    <p>Install the Mod Kit when you can, and tell me the path. Once it's there I can read the Lua API docs and the engine's class names from disk, which I can't get from the website.</p>
+    <p>The Steam Workshop subscription to Giik's Mollo (1871989159) hasn't downloaded yet. Its GML is the exact source for the fuse and bomb logic in phase 2.</p>
+    <p>This build stays private: Mollo belongs to Aether Studios and Giik.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Files</h2>
+  <div class="files">
+    <div>export/SK_Mol_Default.fbx<span>mesh + skeleton, R2 export settings</span></div>
+    <div>export/AN_Mol_Default.fbx<span>all 125 actions, baked</span></div>
+    <div>export/textures/<span>T_Mol_DefaultBody_BC / _N / _ORMS, T_Mol_DefaultProps_BC</span></div>
+    <div>export/ATTAQUES.md<span>entry sheet for the ATT_ assets</span></div>
+    <div>export/attaques_mollo.json<span>same data, machine-readable</span></div>
+    <div>blender/mollo_anim.blend<span>source scene with every action</span></div>
+    <div>work/*.py<span>the pipeline; poses live in anims_mollo, anims_mouvement, attaques_mollo</span></div>
+  </div>
+  <p class="muted" style="font-size:14px">Sources: <a href="https://rivals2.com/workshop/">Rivals 2 Workshop docs</a> · <a href="https://rivals.academy/library/mollo/">Rivals Academy, Mollo</a> · <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1871989159">Mollo on the R1 Steam Workshop</a></p>
+</section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:"dark",securityLevel:"strict"});</script>
+</body></html>

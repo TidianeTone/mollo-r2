@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mollo for Rivals 2</title>
+<meta name="description" content="A fan port of Mollo to Rivals of Aether II, built with Claude Code: build report, beginner's guide and attack sheet.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column on a night-sky ground, wide rows only for image boards and the frame-data table.
+   Single dark look on purpose: fireworks read against night. Warm ramp amber -> rose -> plum -> indigo. */
+:root {
+  color-scheme: dark;
+  --ground: #120d16;
+  --panel: #1d1522;
+  --line: #3a2a40;
+  --text: #efe4dc;
+  --muted: #b3a2ad;
+  --fuse: #ffb347;      /* lit fuse, primary accent */
+  --cherry: #e8475d;    /* cherry bomb, problems */
+  --plum: #8c5aa8;      /* riot suit */
+  --ok: #8fd19e;        /* done */
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+body { background: var(--ground); color: var(--text); font: 17px/1.6 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1; margin: 0; }
+h1 { font-size: clamp(56px, 11vw, 120px); font-weight: 900; letter-spacing: .01em; text-transform: uppercase; }
+h1 .to { color: var(--fuse); }
+h2 { font-size: clamp(32px, 5vw, 46px); font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+h3 { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--fuse); }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font: 600 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 20px; color: var(--text); }
+.muted { color: var(--muted); }
+a { color: var(--fuse); }
+code { font-family: var(--mono); font-size: .86em; color: var(--fuse); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero img { border-radius: 4px; border: 1px solid var(--line); }
+.status { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill { font: 600 13px/1.3 var(--mono); padding: 9px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pill.wait { color: var(--fuse); border-color: color-mix(in srgb, var(--fuse) 45%, var(--line)); }
+.counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.counts div { background: var(--ground); padding: 18px 16px; display: grid; gap: 4px; }
+.counts b { font: 800 44px/1 var(--display); color: var(--fuse); font-variant-numeric: tabular-nums; }
+.counts span { font-size: 14px; color: var(--muted); }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figure img { width: 100%; border-radius: 3px; border: 1px solid var(--line); background: #0c0910; }
+figcaption { font-size: 14px; color: var(--muted); }
+.gifs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.gifs figcaption { font-family: var(--mono); font-size: 13px; color: var(--text); }
+.gifs figcaption span { color: var(--muted); }
+.diagram { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+.diagram pre { margin: 0; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel); position: sticky; top: 0; }
+td.n { font-family: var(--mono); }
+tr.grp td { font: 700 13px var(--display); letter-spacing: .08em; text-transform: uppercase; color: #c9a3e0; background: var(--ground); padding-top: 14px; }
+.issues { display: grid; gap: 12px; }
+.issue { display: grid; grid-template-columns: 4px minmax(0, 1fr); gap: 16px; }
+.issue::before { content: ""; background: var(--cherry); border-radius: 2px; }
+.issue.fixed::before { background: var(--ok); }
+.issue h4 { margin: 0 0 4px; font: 700 17px var(--body); }
+.issue p { color: var(--muted); font-size: 16px; }
+.tag { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin-left: 8px; }
+.issue.fixed .tag { color: var(--ok); }
+.issue .tag { color: var(--cherry); }
+ol.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+ol.steps li::marker { font-family: var(--mono); color: var(--fuse); }
+.ask { background: var(--panel); border: 1px solid color-mix(in srgb, var(--fuse) 40%, var(--line)); border-radius: 6px; padding: 20px 22px; display: grid; gap: 12px; }
+.files { font-family: var(--mono); font-size: 14px; display: grid; gap: 6px; }
+.files div { display: grid; grid-template-columns: minmax(0, 22ch) minmax(0, 1fr); gap: 16px; }
+.files span { color: var(--muted); font-family: var(--body); }
+@media (max-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .files div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+:focus-visible { outline: 2px solid var(--fuse); outline-offset: 3px; }
+
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 14px 20px; border-bottom: 1px solid var(--line); font: 600 13px/1.4 var(--mono); }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a[aria-current] { color: var(--fuse); }
+.site-nav a:hover { color: var(--text); }
+
+.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.doc { display: grid; grid-template-rows: 190px auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; }
+.doc:hover, .doc:focus-visible { border-color: var(--fuse); transform: translateY(-2px); }
+.doc img { width: 100%; height: 190px; object-fit: cover; border: 0; border-radius: 0; }
+.doc div { padding: 16px 18px 20px; display: grid; gap: 8px; align-content: start; }
+.doc h2 { font-size: 30px; }
+.doc p { font-size: 15px; color: var(--muted); }
+.doc .go { font: 600 13px var(--mono); color: var(--fuse); }
+@media (prefers-reduced-motion: reduce) { .doc { transition: none; } .doc:hover { transform: none; } }
+.legal { font-size: 14px; color: var(--muted); max-width: 80ch; border-top: 1px solid var(--line); padding-top: 18px; }
+</style></head><body>
+<nav class="site-nav"><a href="index.html" aria-current=page>Mollo → R2</a><a href="rapport.html">Build report</a><a href="guide.html">Beginner guide</a><a href="attaques.html">Attack sheet</a></nav>
+<div class="wrap">
+<header class="hero" style="align-items:center">
+  <div style="display:grid;gap:20px">
+    <h1>Mollo <span class="to">→</span> R2</h1>
+    <p class="lede">A fan port of Giik's fuse-antennae moth from Rivals of Aether to the Rivals 2 Workshop, rebuilt in 3D in one evening with Claude Code. Three documents tell the story.</p>
+    <div class="status"><span class="pill ok">Phase 1: Blender side done</span><span class="pill wait">Phase 2: Mod Kit + Lua</span></div>
+  </div>
+  <figure><img src="img/anim_strip.jpg" alt="Key frames of Mollo's run, forward tilt, neutral air, double jump and bat special"></figure>
+</header>
+<section class="docs">
+  <a class="doc" href="rapport.html"><img src="img/hitbox_a.jpg" alt=""><div><h2>Build report</h2><p>Pipeline diagram, model, rig, animated GIFs, frame data table and every bug found along the way.</p><span class="go">Open the report →</span></div></a>
+  <a class="doc" href="guide.html"><img src="img/trellis.jpg" alt=""><div><h2>Beginner guide</h2><p>14 pages for someone new to AI and modding: what a character mod is, chat vs. agent, step by step, glossary. Also as a PDF.</p><span class="go">Read the guide →</span></div></a>
+  <a class="doc" href="attaques.html"><img src="img/rig_v7.jpg" alt=""><div><h2>Attack sheet</h2><p>All 36 attacks: windows, hitboxes, damage, angles, knockback, ready to enter in the Unreal attack assets.</p><span class="go">See the attacks →</span></div></a>
+</section>
+<p class="legal">Mollo was created by Giik and is property of Aether Studios, like Rivals of Aether. This is a non-commercial fan project documenting a private mod; the mod files themselves are not distributed here.</p>
+</div></body></html>

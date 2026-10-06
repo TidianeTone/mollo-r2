@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mollo Attack Sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column on a night-sky ground, wide rows only for image boards and the frame-data table.
+   Single dark look on purpose: fireworks read against night. Warm ramp amber -> rose -> plum -> indigo. */
+:root {
+  color-scheme: dark;
+  --ground: #120d16;
+  --panel: #1d1522;
+  --line: #3a2a40;
+  --text: #efe4dc;
+  --muted: #b3a2ad;
+  --fuse: #ffb347;      /* lit fuse, primary accent */
+  --cherry: #e8475d;    /* cherry bomb, problems */
+  --plum: #8c5aa8;      /* riot suit */
+  --ok: #8fd19e;        /* done */
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+body { background: var(--ground); color: var(--text); font: 17px/1.6 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1; margin: 0; }
+h1 { font-size: clamp(56px, 11vw, 120px); font-weight: 900; letter-spacing: .01em; text-transform: uppercase; }
+h1 .to { color: var(--fuse); }
+h2 { font-size: clamp(32px, 5vw, 46px); font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+h3 { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--fuse); }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font: 600 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 20px; color: var(--text); }
+.muted { color: var(--muted); }
+a { color: var(--fuse); }
+code { font-family: var(--mono); font-size: .86em; color: var(--fuse); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero img { border-radius: 4px; border: 1px solid var(--line); }
+.status { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill { font: 600 13px/1.3 var(--mono); padding: 9px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pill.wait { color: var(--fuse); border-color: color-mix(in srgb, var(--fuse) 45%, var(--line)); }
+.counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.counts div { background: var(--ground); padding: 18px 16px; display: grid; gap: 4px; }
+.counts b { font: 800 44px/1 var(--display); color: var(--fuse); font-variant-numeric: tabular-nums; }
+.counts span { font-size: 14px; color: var(--muted); }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figure img { width: 100%; border-radius: 3px; border: 1px solid var(--line); background: #0c0910; }
+figcaption { font-size: 14px; color: var(--muted); }
+.gifs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.gifs figcaption { font-family: var(--mono); font-size: 13px; color: var(--text); }
+.gifs figcaption span { color: var(--muted); }
+.diagram { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+.diagram pre { margin: 0; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel); position: sticky; top: 0; }
+td.n { font-family: var(--mono); }
+tr.grp td { font: 700 13px var(--display); letter-spacing: .08em; text-transform: uppercase; color: #c9a3e0; background: var(--ground); padding-top: 14px; }
+.issues { display: grid; gap: 12px; }
+.issue { display: grid; grid-template-columns: 4px minmax(0, 1fr); gap: 16px; }
+.issue::before { content: ""; background: var(--cherry); border-radius: 2px; }
+.issue.fixed::before { background: var(--ok); }
+.issue h4 { margin: 0 0 4px; font: 700 17px var(--body); }
+.issue p { color: var(--muted); font-size: 16px; }
+.tag { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin-left: 8px; }
+.issue.fixed .tag { color: var(--ok); }
+.issue .tag { color: var(--cherry); }
+ol.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+ol.steps li::marker { font-family: var(--mono); color: var(--fuse); }
+.ask { background: var(--panel); border: 1px solid color-mix(in srgb, var(--fuse) 40%, var(--line)); border-radius: 6px; padding: 20px 22px; display: grid; gap: 12px; }
+.files { font-family: var(--mono); font-size: 14px; display: grid; gap: 6px; }
+.files div { display: grid; grid-template-columns: minmax(0, 22ch) minmax(0, 1fr); gap: 16px; }
+.files span { color: var(--muted); font-family: var(--body); }
+@media (max-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .files div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+:focus-visible { outline: 2px solid var(--fuse); outline-offset: 3px; }
+
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 14px 20px; border-bottom: 1px solid var(--line); font: 600 13px/1.4 var(--mono); }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a[aria-current] { color: var(--fuse); }
+.site-nav a:hover { color: var(--text); }
+
+.toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.toc-g { display: flex; flex-wrap: wrap; gap: 6px 12px; align-content: start; }
+.toc-g b { width: 100%; font: 700 15px var(--display); letter-spacing: .06em; text-transform: uppercase; color: #c9a3e0; }
+.toc-g a { font: 13px var(--mono); }
+.grp-t { margin-top: 20px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.atk { display: grid; gap: 12px; scroll-margin-top: 20px; }
+.atk header { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+.atk h3 { font-size: 28px; }
+.meta { font-size: 14px; color: var(--muted); }
+.bar { display: flex; gap: 2px; min-height: 34px; overflow-x: auto; }
+.bar .w { min-width: 46px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; padding: 4px 8px; font: 600 11px/1.3 var(--mono); color: var(--muted); display: flex; justify-content: space-between; gap: 6px; white-space: nowrap; }
+.bar .w i { font-style: normal; color: var(--text); }
+.bar .w.act { background: color-mix(in srgb, var(--cherry) 28%, var(--panel)); border-color: var(--cherry); color: var(--text); }
+.bar .w.loop { border-style: dashed; border-color: var(--fuse); }
+.notes { font-size: 15px; color: var(--muted); max-width: 90ch; }
+.notes b { color: var(--fuse); margin-right: 6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 10px; margin-right: 6px; border: 1px solid var(--line); background: var(--panel); vertical-align: middle; }
+.legend .a::before { background: color-mix(in srgb, var(--cherry) 28%, var(--panel)); border-color: var(--cherry); }
+.legend .l::before { border: 1px dashed var(--fuse); }
+</style></head><body>
+<nav class="site-nav"><a href="index.html">Mollo → R2</a><a href="rapport.html">Build report</a><a href="guide.html">Beginner guide</a><a href="attaques.html" aria-current=page>Attack sheet</a></nav>
+<div class="wrap">
+<header style="display:grid;gap:16px">
+  <h1>Attack <span class="to">sheet</span></h1>
+  <p class="lede col">All 36 attacks of the Rivals 2 Mollo build, as they go into the Unreal <code>ATT_</code> assets: windows, hitboxes and on-hit properties. Frame data from Rivals Academy (RoA1 patch 2.1.5.6), 60 fps.</p>
+  <p class="col muted">Hitbox offsets are in centimeters, in Blender bone space (Y runs along the bone). Knockback is RoA1's as-is and still needs balancing in R2. Mollo had no grab in RoA1, so grabs and throws are new designs.</p>
+  <div class="legend"><span>window</span><span class="a">window with a hitbox</span><span class="l">held / looping window</span></div>
+</header>
+<section class="toc"><div class="toc-g"><b>Jabs, tilts, dash</b><a href="#Jab1">Jab1</a><a href="#Jab2">Jab2</a><a href="#Jab3">Jab3</a><a href="#DashAttack">DashAttack</a><a href="#FTilt">FTilt</a><a href="#UTilt">UTilt</a><a href="#DTilt">DTilt</a></div><div class="toc-g"><b>Aerials</b><a href="#NAir">NAir</a><a href="#FAir">FAir</a><a href="#BAir">BAir</a><a href="#UAir">UAir</a><a href="#DAir">DAir</a></div><div class="toc-g"><b>Strongs</b><a href="#FStrong">FStrong</a><a href="#UStrong">UStrong</a><a href="#DStrong">DStrong</a><a href="#FStrongBomb">FStrongBomb</a><a href="#UStrongBomb">UStrongBomb</a><a href="#DStrongBomb">DStrongBomb</a></div><div class="toc-g"><b>Specials</b><a href="#NSpecial">NSpecial</a><a href="#FSpecial">FSpecial</a><a href="#USpecial">USpecial</a><a href="#DSpecial">DSpecial</a><a href="#Taunt">Taunt</a></div><div class="toc-g"><b>Grabs and throws</b><a href="#Grab">Grab</a><a href="#DashGrab">DashGrab</a><a href="#PivotGrab">PivotGrab</a><a href="#Pummel">Pummel</a><a href="#PummelSpecial">PummelSpecial</a><a href="#FThrow">FThrow</a><a href="#BThrow">BThrow</a><a href="#UThrow">UThrow</a><a href="#DThrow">DThrow</a></div><div class="toc-g"><b>Getup and ledge</b><a href="#GetupAttack">GetupAttack</a><a href="#GetupSpecial">GetupSpecial</a><a href="#LedgeAttack">LedgeAttack</a><a href="#LedgeSpecial">LedgeSpecial</a></div></section>
+<h2 class="grp-t">Jabs, tilts, dash</h2><article class="atk" id="Jab1">
+  <header><h3>Jab1</h3><span class="meta">19 frames · <code>AN_Mol_Jab1</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:5" title="Startup 5f">Startup<i>5</i></span><span class="w act" style="flex:2" title="Active 2f">Active<i>2</i></span><span class="w" style="flex:12" title="Recovery 12f">Recovery<i>12</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>poing</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active</td><td><code>j1</code></td></tr><tr><td>bras</td><td><code>Elbow_L</code></td><td class="n">(0, 0, 0)</td><td class="n">16</td><td>Active</td><td><code>j1</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>j1</code></td><td class="n">3%</td><td class="n">40°</td><td class="n">4</td><td class="n">0.0</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td>force_flinch=True</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Annulable en Jab2 pendant Recovery f7-12 (RoA : fenetres 7-10 et 11-12), en tilt f7-12.</p>
+</article><article class="atk" id="Jab2">
+  <header><h3>Jab2</h3><span class="meta">21 frames · <code>AN_Mol_Jab2</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:2" title="Startup 2f">Startup<i>2</i></span><span class="w act" style="flex:3" title="Active 3f">Active<i>3</i></span><span class="w" style="flex:16" title="Recovery 16f">Recovery<i>16</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>poing</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active</td><td><code>j2</code></td></tr><tr><td>bras</td><td><code>Elbow_R</code></td><td class="n">(0, 0, 0)</td><td class="n">16</td><td>Active</td><td><code>j2</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>j2</code></td><td class="n">4%</td><td class="n">65°</td><td class="n">6</td><td class="n">0.7</td><td class="n">7 / 0.4</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Annulable en Jab3 pendant Recovery f9-16.</p>
+</article><article class="atk" id="Jab3">
+  <header><h3>Jab3</h3><span class="meta">29 frames · <code>AN_Mol_Jab3</code> · Ground · props: Can</span></header>
+  <div class="bar"><span class="w" style="flex:8" title="Startup 8f">Startup<i>8</i></span><span class="w act loop" style="flex:14" title="Spray 14f">Spray<i>14</i></span><span class="w" style="flex:7" title="Recovery 7f">Recovery<i>7</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>jet1</td><td><code>Wrist_R</code></td><td class="n">(0, 45, 0)</td><td class="n">26</td><td>Spray</td><td><code>j3</code></td></tr><tr><td>jet2</td><td><code>Wrist_R</code></td><td class="n">(0, 95, 0)</td><td class="n">34</td><td>Spray</td><td><code>j3</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>j3</code></td><td class="n">2%</td><td class="n">30°</td><td class="n">4</td><td class="n">0.0</td><td class="n">2 / 0.0</td><td class="n">×1.0</td><td class="n">1</td><td>force_flinch=True, multihit=4</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Spray boucle tant que Attaque tenue (fenetre Spray, hit toutes les 4 images). Bidon : 8 boucles pleines puis vide (hitbox 4 images sur 8). Recharge apres ~120 images sans usage. Lua : compteur bidon + VFX feu sur PropCan_R.</p>
+</article><article class="atk" id="DashAttack">
+  <header><h3>DashAttack</h3><span class="meta">37 frames · <code>AN_Mol_DashAttack</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:6" title="Startup 6f">Startup<i>6</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:27" title="Recovery 27f">Recovery<i>27</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>epaule</td><td><code>Shoulder_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active</td><td><code>da</code></td></tr><tr><td>corps</td><td><code>Chest_M</code></td><td class="n">(0, 0, 0)</td><td class="n">32</td><td>Active</td><td><code>da</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>da</code></td><td class="n">4%</td><td class="n">40°</td><td class="n">8</td><td class="n">0.4</td><td class="n">5 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td>angle_flipper=6</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Endlag 18 au contact / 27 a vide. Si une bombe de Mollo est au sol a portee f9 : la ramasse et enchaine DashAttackBomb (lancer, actif 19-24, 4 %, 40°, 8-10|0.5).</p>
+</article><article class="atk" id="FTilt">
+  <header><h3>FTilt</h3><span class="meta">35 frames · <code>AN_Mol_FTilt</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:9" title="Startup 9f">Startup<i>9</i></span><span class="w act" style="flex:5" title="Active 5f">Active<i>5</i></span><span class="w" style="flex:21" title="Recovery 21f">Recovery<i>21</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>pied</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>ft</code></td></tr><tr><td>tibia</td><td><code>Knee_L</code></td><td class="n">(0, 0, 0)</td><td class="n">20</td><td>Active</td><td><code>ft</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>ft</code></td><td class="n">9%</td><td class="n">40°</td><td class="n">10</td><td class="n">0.45</td><td class="n">8 / 0.9</td><td class="n">×1.0</td><td class="n">1</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Coup de pied tendu (botte anti-emeute).</p>
+</article><article class="atk" id="UTilt">
+  <header><h3>UTilt</h3><span class="meta">27 frames · <code>AN_Mol_UTilt</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:6" title="Startup 6f">Startup<i>6</i></span><span class="w act" style="flex:2" title="Active1 2f">Active1<i>2</i></span><span class="w" style="flex:1" title="Gap 1f">Gap<i>1</i></span><span class="w act" style="flex:3" title="Active2 3f">Active2<i>3</i></span><span class="w" style="flex:15" title="Recovery 15f">Recovery<i>15</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>tete</td><td><code>Head_M</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active1</td><td><code>ut</code></td></tr><tr><td>antennes</td><td><code>Antenna2_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active2</td><td><code>ut</code></td></tr><tr><td>antennesR</td><td><code>Antenna2_R</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active2</td><td><code>ut</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>ut</code></td><td class="n">8%</td><td class="n">80°</td><td class="n">9</td><td class="n">0.8</td><td class="n">6 / 1.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Coup de tete vers le haut, les antennes-meches fouettent (etincelles VFX sur Antenna3).</p>
+</article><article class="atk" id="DTilt">
+  <header><h3>DTilt</h3><span class="meta">30 frames · <code>AN_Mol_DTilt</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:4" title="Startup 4f">Startup<i>4</i></span><span class="w act" style="flex:8" title="Active 8f">Active<i>8</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>pied</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active</td><td><code>dt</code></td></tr><tr><td>jambe</td><td><code>Knee_L</code></td><td class="n">(0, 0, 0)</td><td class="n">18</td><td>Active</td><td><code>dt</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>dt</code></td><td class="n">5%</td><td class="n">65°</td><td class="n">7</td><td class="n">0.5</td><td class="n">3 / 0.35</td><td class="n">×1.0</td><td class="n">1</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Balayage bas.</p>
+</article><h2 class="grp-t">Aerials</h2><article class="atk" id="NAir">
+  <header><h3>NAir</h3><span class="meta">29 frames · <code>AN_Mol_NAir</code> · Air · landing lag 6</span></header>
+  <div class="bar"><span class="w" style="flex:6" title="Startup 6f">Startup<i>6</i></span><span class="w act" style="flex:4" title="Active1 4f">Active1<i>4</i></span><span class="w" style="flex:2" title="Gap 2f">Gap<i>2</i></span><span class="w act" style="flex:6" title="Active2 6f">Active2<i>6</i></span><span class="w" style="flex:11" title="Recovery 11f">Recovery<i>11</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>cape1</td><td><code>Cape3_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active1</td><td><code>n1</code></td></tr><tr><td>cape1r</td><td><code>Cape3_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active1</td><td><code>n1</code></td></tr><tr><td>corps1</td><td><code>Spine2_M</code></td><td class="n">(0, 0, 0)</td><td class="n">34</td><td>Active1</td><td><code>n1</code></td></tr><tr><td>cape2</td><td><code>Cape3_L</code></td><td class="n">(0, 0, 0)</td><td class="n">34</td><td>Active2</td><td><code>n2</code></td></tr><tr><td>cape2r</td><td><code>Cape3_R</code></td><td class="n">(0, 0, 0)</td><td class="n">34</td><td>Active2</td><td><code>n2</code></td></tr><tr><td>corps2</td><td><code>Spine2_M</code></td><td class="n">(0, 0, 0)</td><td class="n">36</td><td>Active2</td><td><code>n2</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>n1</code></td><td class="n">2%</td><td class="n">55°</td><td class="n">5</td><td class="n">0.0</td><td class="n">4 / 0.0</td><td class="n">×0.5</td><td class="n">1</td><td>angle_flipper=10</td></tr><tr><td><code>n2</code></td><td class="n">5%</td><td class="n">55°</td><td class="n">6</td><td class="n">0.4</td><td class="n">5 / 0.5</td><td class="n">×1.0</td><td class="n">1</td><td>angle_flipper=6</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Toupie, la cape-ailes ouverte fouette deux fois.</p>
+</article><article class="atk" id="FAir">
+  <header><h3>FAir</h3><span class="meta">43 frames · <code>AN_Mol_FAir</code> · Air · landing lag 12</span></header>
+  <div class="bar"><span class="w" style="flex:5" title="Startup 5f">Startup<i>5</i></span><span class="w loop" style="flex:6" title="Charge 6f">Charge<i>6</i></span><span class="w" style="flex:4" title="PostCharge 4f">PostCharge<i>4</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:24" title="Recovery 24f">Recovery<i>24</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>pieds</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active</td><td><code>fa</code></td></tr><tr><td>pieds2</td><td><code>Ankle_R</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active</td><td><code>fa</code></td></tr><tr><td>jambes</td><td><code>Knee_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active</td><td><code>fa</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>fa</code></td><td class="n">9%</td><td class="n">310°</td><td class="n">6</td><td class="n">0.5</td><td class="n">12 / 0.7</td><td class="n">×1.0</td><td class="n">5</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Chargeable comme un strong (tenir attaque) sur 30 images max, charge x2 : degats x1.6 (9 -&gt; 14 %), recul total x1.25. Dropkick en piqué (310°). Lua : charge aerienne.</p>
+</article><article class="atk" id="BAir">
+  <header><h3>BAir</h3><span class="meta">35 frames · <code>AN_Mol_BAir</code> · Air · landing lag 9</span></header>
+  <div class="bar"><span class="w" style="flex:6" title="Startup 6f">Startup<i>6</i></span><span class="w act" style="flex:6" title="Active 6f">Active<i>6</i></span><span class="w" style="flex:23" title="Recovery 23f">Recovery<i>23</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>pieds</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active</td><td><code>ba</code></td></tr><tr><td>pieds2</td><td><code>Ankle_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>ba</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>ba</code></td><td class="n">8%</td><td class="n">130°</td><td class="n">7</td><td class="n">0.8</td><td class="n">7 / 0.8</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Double ruade arriere.</p>
+</article><article class="atk" id="UAir">
+  <header><h3>UAir</h3><span class="meta">47 frames · <code>AN_Mol_UAir</code> · Air · landing lag 6</span></header>
+  <div class="bar"><span class="w" style="flex:8" title="Startup 8f">Startup<i>8</i></span><span class="w act" style="flex:5" title="Active1 5f">Active1<i>5</i></span><span class="w" style="flex:8" title="Gap 8f">Gap<i>8</i></span><span class="w act" style="flex:5" title="Active2 5f">Active2<i>5</i></span><span class="w" style="flex:21" title="Recovery 21f">Recovery<i>21</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>mains1</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active1</td><td><code>u1</code></td></tr><tr><td>mains1r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active1</td><td><code>u1</code></td></tr><tr><td>mains2</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active2</td><td><code>u2</code></td></tr><tr><td>mains2r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active2</td><td><code>u2</code></td></tr><tr><td>antennes</td><td><code>Antenna3_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active2</td><td><code>u2</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>u1</code></td><td class="n">3%</td><td class="n">100°</td><td class="n">4</td><td class="n">0.0</td><td class="n">3 / 0.5</td><td class="n">×0.8</td><td class="n">1</td><td></td></tr><tr><td><code>u2</code></td><td class="n">6%</td><td class="n">90°</td><td class="n">7</td><td class="n">0.7</td><td class="n">4 / 1.0</td><td class="n">×1.0</td><td class="n">1</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Deux frappes vers le haut, la seconde plus haute avec les antennes-meches.</p>
+</article><article class="atk" id="DAir">
+  <header><h3>DAir</h3><span class="meta">31 frames · <code>AN_Mol_DAir</code> · Air · landing lag 6</span></header>
+  <div class="bar"><span class="w" style="flex:8" title="Startup 8f">Startup<i>8</i></span><span class="w act" style="flex:9" title="Active 9f">Active<i>9</i></span><span class="w" style="flex:14" title="Recovery 14f">Recovery<i>14</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>semelle</td><td><code>Toes_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active</td><td><code>spike</code></td></tr><tr><td>semelle2</td><td><code>Toes_R</code></td><td class="n">(0, 0, 0)</td><td class="n">20</td><td>Active</td><td><code>spike</code></td></tr><tr><td>jambes</td><td><code>Knee_L</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active</td><td><code>haut</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>spike</code></td><td class="n">6%</td><td class="n">270°</td><td class="n">3</td><td class="n">0.7</td><td class="n">10 / 0.8</td><td class="n">×1.0</td><td class="n">4</td><td></td></tr><tr><td><code>haut</code></td><td class="n">5%</td><td class="n">70°</td><td class="n">3</td><td class="n">0.4</td><td class="n">6 / 0.5</td><td class="n">×1.0</td><td class="n">3</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Piétinement : semelles = spike 270°, jambes = 70°.</p>
+</article><h2 class="grp-t">Strongs</h2><article class="atk" id="FStrong">
+  <header><h3>FStrong</h3><span class="meta">113 frames · <code>AN_Mol_FStrong</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:8" title="PreCharge 8f">PreCharge<i>8</i></span><span class="w loop" style="flex:60" title="Charge 60f">Charge<i>60</i></span><span class="w" style="flex:4" title="PostCharge 4f">PostCharge<i>4</i></span><span class="w act" style="flex:3" title="Active1 3f">Active1<i>3</i></span><span class="w" style="flex:1" title="Gap1 1f">Gap1<i>1</i></span><span class="w act" style="flex:3" title="Active2 3f">Active2<i>3</i></span><span class="w" style="flex:1" title="Gap2 1f">Gap2<i>1</i></span><span class="w act" style="flex:3" title="Active3 3f">Active3<i>3</i></span><span class="w" style="flex:30" title="Recovery 30f">Recovery<i>30</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>p1</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active1</td><td><code>f12</code></td></tr><tr><td>p2</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">24</td><td>Active2</td><td><code>f12</code></td></tr><tr><td>p3</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active3</td><td><code>f3</code></td></tr><tr><td>p3r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active3</td><td><code>f3</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>f12</code></td><td class="n">3%</td><td class="n">20°</td><td class="n">8</td><td class="n">0.0</td><td class="n">1 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td>untechable=True, force_flinch=True</td></tr><tr><td><code>f3</code></td><td class="n">6%</td><td class="n">45°</td><td class="n">7</td><td class="n">1.05</td><td class="n">9 / 1.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Rafale gauche-droite puis poussee a deux mains. Variante bombe tenue -&gt; FStrongBomb.</p>
+</article><article class="atk" id="UStrong">
+  <header><h3>UStrong</h3><span class="meta">113 frames · <code>AN_Mol_UStrong</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="PreCharge 10f">PreCharge<i>10</i></span><span class="w loop" style="flex:60" title="Charge 60f">Charge<i>60</i></span><span class="w" style="flex:3" title="PostCharge 3f">PostCharge<i>3</i></span><span class="w act" style="flex:4" title="Active1 4f">Active1<i>4</i></span><span class="w act" style="flex:3" title="Active2 3f">Active2<i>3</i></span><span class="w act" style="flex:3" title="Active3 3f">Active3<i>3</i></span><span class="w act" style="flex:4" title="Active4 4f">Active4<i>4</i></span><span class="w" style="flex:26" title="Recovery 26f">Recovery<i>26</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>gerbe1</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active1</td><td><code>u13</code></td></tr><tr><td>gerbe2</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active2</td><td><code>u13</code></td></tr><tr><td>gerbe3</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active3</td><td><code>u13</code></td></tr><tr><td>gerbe1r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active1</td><td><code>u13</code></td></tr><tr><td>gerbe2r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active2</td><td><code>u13</code></td></tr><tr><td>gerbe3r</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active3</td><td><code>u13</code></td></tr><tr><td>bouquet</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">40</td><td>Active4</td><td><code>u4</code></td></tr><tr><td>bouquetr</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">40</td><td>Active4</td><td><code>u4</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>u13</code></td><td class="n">2%</td><td class="n">120°</td><td class="n">9</td><td class="n">0.0</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr><tr><td><code>u4</code></td><td class="n">5%</td><td class="n">90°</td><td class="n">8</td><td class="n">1.0</td><td class="n">12 / 1.0</td><td class="n">×1.0</td><td class="n">5</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Gerbe de feu d&#x27;artifice au-dessus de la tete : 3 crepitements + bouquet final (RoA : hitbox haute/basse a angles differents, ici fusionnees). VFX etincelles sur les mains.</p>
+</article><article class="atk" id="DStrong">
+  <header><h3>DStrong</h3><span class="meta">115 frames · <code>AN_Mol_DStrong</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:9" title="PreCharge 9f">PreCharge<i>9</i></span><span class="w loop" style="flex:60" title="Charge 60f">Charge<i>60</i></span><span class="w" style="flex:3" title="PostCharge 3f">PostCharge<i>3</i></span><span class="w act" style="flex:3" title="Active 3f">Active<i>3</i></span><span class="w" style="flex:40" title="Recovery 40f">Recovery<i>40</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>centre</td><td><code>Root_M</code></td><td class="n">(0, -80, 0)</td><td class="n">34</td><td>Active</td><td><code>dc</code></td></tr><tr><td>gauche</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active</td><td><code>dside</code></td></tr><tr><td>droite</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Active</td><td><code>dside</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>dc</code></td><td class="n">7%</td><td class="n">90°</td><td class="n">7</td><td class="n">1.2</td><td class="n">10 / 0.5</td><td class="n">×1.0</td><td class="n">3</td><td></td></tr><tr><td><code>dside</code></td><td class="n">5%</td><td class="n">75°</td><td class="n">7</td><td class="n">1.1</td><td class="n">7 / 0.5</td><td class="n">×1.0</td><td class="n">2</td><td>angle_flipper=3</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Frappe le sol des deux poings : explosion au centre (90°) et sur les cotes (75°). Tenir gauche/droite f17 : glissade, endlag 32 au lieu de 40.</p>
+</article><article class="atk" id="FStrongBomb">
+  <header><h3>FStrongBomb</h3><span class="meta">22 frames · <code>AN_Mol_FStrongBomb</code> · Ground · props: Bomb</span></header>
+  <div class="bar"><span class="w" style="flex:13" title="Startup 13f">Startup<i>13</i></span><span class="w act" style="flex:3" title="Active 3f">Active<i>3</i></span><span class="w" style="flex:6" title="Recovery 6f">Recovery<i>6</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>bt</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>bt</code></td><td class="n">5%</td><td class="n">40°</td><td class="n">10</td><td class="n">0.0</td><td class="n">5 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l&#x27;article bombe avec vitesse et charge.</p>
+</article><article class="atk" id="UStrongBomb">
+  <header><h3>UStrongBomb</h3><span class="meta">24 frames · <code>AN_Mol_UStrongBomb</code> · Ground · props: Bomb</span></header>
+  <div class="bar"><span class="w" style="flex:9" title="Startup 9f">Startup<i>9</i></span><span class="w act" style="flex:3" title="Active 3f">Active<i>3</i></span><span class="w" style="flex:12" title="Recovery 12f">Recovery<i>12</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>bt</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>bt</code></td><td class="n">5%</td><td class="n">90°</td><td class="n">10</td><td class="n">0.0</td><td class="n">5 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l&#x27;article bombe avec vitesse et charge.</p>
+</article><article class="atk" id="DStrongBomb">
+  <header><h3>DStrongBomb</h3><span class="meta">15 frames · <code>AN_Mol_DStrongBomb</code> · Ground · props: Bomb</span></header>
+  <div class="bar"><span class="w" style="flex:9" title="Startup 9f">Startup<i>9</i></span><span class="w" style="flex:1" title="Active 1f">Active<i>1</i></span><span class="w" style="flex:5" title="Recovery 5f">Recovery<i>5</i></span></div>
+  
+  
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l&#x27;article bombe avec vitesse et charge.</p>
+</article><h2 class="grp-t">Specials</h2><article class="atk" id="NSpecial">
+  <header><h3>NSpecial</h3><span class="meta">18 frames · <code>AN_Mol_NSpecial</code> · Both · props: Bomb</span></header>
+  <div class="bar"><span class="w" style="flex:4" title="Startup 4f">Startup<i>4</i></span><span class="w" style="flex:12" title="Pull 12f">Pull<i>12</i></span><span class="w" style="flex:2" title="Recovery 2f">Recovery<i>2</i></span></div>
+  
+  
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Sort une bombe de la ceinture. Direction tenue : haut = Cerise, gauche = Petard, droite = Flashbang, bas = Finisher, neutre = Cerise. Meche de 120 images des f16, puis instable et explose 50 images plus tard ; explose aussi 50 images apres le lancer, au contact, ou si Mollo est touche. Implementation R2 : article tenable (Is Holdable Item) monte sur la socket Item ; les lancers passent par les animations ItemThrow*.</p>
+</article><article class="atk" id="FSpecial">
+  <header><h3>FSpecial</h3><span class="meta">45 frames · <code>AN_Mol_FSpecial</code> · Both · props: Gun</span></header>
+  <div class="bar"><span class="w" style="flex:21" title="Startup 21f">Startup<i>21</i></span><span class="w loop" style="flex:1" title="Aim 1f">Aim<i>1</i></span><span class="w" style="flex:14" title="Fire 14f">Fire<i>14</i></span><span class="w" style="flex:9" title="Recovery 9f">Recovery<i>9</i></span></div>
+  
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>flare</code></td><td class="n">4%</td><td class="n">80°</td><td class="n">6</td><td class="n">0.4</td><td class="n">6 / 0.0</td><td class="n">×0.5</td><td class="n">3</td><td>angle_flipper=7</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Pistolet de detresse. Fenetre Aim tenue tant que special tenu : un curseur se deplace au stick (Lua). Au relachement, la fusee (article projectile) part vers le curseur, touche a 36-40 (43-47 si bombe tenue, +7 images de demarrage). Elle a une grande hitbox qui ne touche que les bombes : elle les fait exploser tout de suite.</p>
+</article><article class="atk" id="USpecial">
+  <header><h3>USpecial</h3><span class="meta">61 frames · <code>AN_Mol_USpecial</code> · Both</span></header>
+  <div class="bar"><span class="w" style="flex:14" title="Startup 14f">Startup<i>14</i></span><span class="w act" style="flex:4" title="Launch 4f">Launch<i>4</i></span><span class="w act" style="flex:30" title="Travel 30f">Travel<i>30</i></span><span class="w" style="flex:13" title="Recovery 13f">Recovery<i>13</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>decollage</td><td><code>Root_M</code></td><td class="n">(0, 0, 0)</td><td class="n">34</td><td>Launch</td><td><code>lancement</code></td></tr><tr><td>trainee</td><td><code>Root_M</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Travel</td><td><code>voyage</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>lancement</code></td><td class="n">4%</td><td class="n">90°</td><td class="n">7</td><td class="n">0.5</td><td class="n">3 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td>force_flinch=True</td></tr><tr><td><code>voyage</code></td><td class="n">2%</td><td class="n">90°</td><td class="n">5</td><td class="n">0.4</td><td class="n">2 / 0.0</td><td class="n">×0.5</td><td class="n">5</td><td>multihit=5</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Fusee de feu d&#x27;artifice : Mollo s&#x27;accroche et monte en vrille, 5 touches pendant le trajet (24-28, 30-34, 34-38, 36-43, 45-49), puis chute libre (pratfall). Bouclier pendant 22-36 = annulation (12 images d&#x27;endlag). Si bombe tenue : lancee en fin de coup, instable. Velocite : voir doc Recovery Moves (Special Fall + Special Land).</p>
+</article><article class="atk" id="DSpecial">
+  <header><h3>DSpecial</h3><span class="meta">66 frames · <code>AN_Mol_DSpecial</code> · Both · props: Bat</span></header>
+  <div class="bar"><span class="w" style="flex:38" title="Startup 38f">Startup<i>38</i></span><span class="w act" style="flex:3" title="Active1 3f">Active1<i>3</i></span><span class="w act" style="flex:3" title="Active2 3f">Active2<i>3</i></span><span class="w" style="flex:22" title="Recovery 22f">Recovery<i>22</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>elan</td><td><code>PropBat_R</code></td><td class="n">(0, 40, 0)</td><td class="n">26</td><td>Active1</td><td><code>b1</code></td></tr><tr><td>acide</td><td><code>PropBat_R</code></td><td class="n">(0, 20, 0)</td><td class="n">22</td><td>Active2</td><td><code>aigre</code></td></tr><tr><td>pointe</td><td><code>PropBat_R</code></td><td class="n">(0, 70, 0)</td><td class="n">26</td><td>Active2</td><td><code>tip</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>b1</code></td><td class="n">6%</td><td class="n">50°</td><td class="n">7</td><td class="n">0.3</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">3</td><td></td></tr><tr><td><code>aigre</code></td><td class="n">11%</td><td class="n">40°</td><td class="n">8</td><td class="n">0.95</td><td class="n">5 / 1.0</td><td class="n">×1.0</td><td class="n">6</td><td></td></tr><tr><td><code>tip</code></td><td class="n">16%</td><td class="n">40°</td><td class="n">9</td><td class="n">1.05</td><td class="n">10 / 3.0</td><td class="n">×1.0</td><td class="n">5</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Batte de baseball. Demi-tour possible f11. Si une bombe est equipee, elle passe au bout de la batte et explose f42. Frapper ses bombes en l&#x27;air en tenant avant les envoie beaucoup plus loin.</p>
+</article><article class="atk" id="Taunt">
+  <header><h3>Taunt</h3><span class="meta">80 frames · <code>AN_Mol_Taunt</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:30" title="Allume 30f">Allume<i>30</i></span><span class="w" style="flex:30" title="Souffle 30f">Souffle<i>30</i></span><span class="w" style="flex:20" title="Recovery 20f">Recovery<i>20</i></span></div>
+  
+  
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Allume ses antennes avec une allumette et souffle la fumee (VFX fumee + etincelles sur Antenna3_L/R).</p>
+</article><h2 class="grp-t">Grabs and throws</h2><article class="atk" id="Grab">
+  <header><h3>Grab</h3><span class="meta">39 frames · <code>AN_Mol_Grab</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:7" title="Startup 7f">Startup<i>7</i></span><span class="w act" style="flex:2" title="Active 2f">Active<i>2</i></span><span class="w" style="flex:30" title="Recovery 30f">Recovery<i>30</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>saisie</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr><tr><td>saisie2</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>grab</code></td><td colspan="7">grab</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Saisie a deux mains. Valeurs R2 universelles a reprendre d&#x27;un perso de reference.</p>
+</article><article class="atk" id="DashGrab">
+  <header><h3>DashGrab</h3><span class="meta">41 frames · <code>AN_Mol_DashGrab</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:9" title="Startup 9f">Startup<i>9</i></span><span class="w act" style="flex:2" title="Active 2f">Active<i>2</i></span><span class="w" style="flex:30" title="Recovery 30f">Recovery<i>30</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>saisie</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr><tr><td>saisie2</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>grab</code></td><td colspan="7">grab</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Saisie a deux mains. Valeurs R2 universelles a reprendre d&#x27;un perso de reference.</p>
+</article><article class="atk" id="PivotGrab">
+  <header><h3>PivotGrab</h3><span class="meta">42 frames · <code>AN_Mol_PivotGrab</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:2" title="Active 2f">Active<i>2</i></span><span class="w" style="flex:30" title="Recovery 30f">Recovery<i>30</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>saisie</td><td><code>Wrist_L</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr><tr><td>saisie2</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">26</td><td>Active</td><td><code>grab</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>grab</code></td><td colspan="7">grab</td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Saisie a deux mains. Valeurs R2 universelles a reprendre d&#x27;un perso de reference.</p>
+</article><article class="atk" id="Pummel">
+  <header><h3>Pummel</h3><span class="meta">14 frames · <code>AN_Mol_Pummel</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:4" title="Startup 4f">Startup<i>4</i></span><span class="w act" style="flex:2" title="Active 2f">Active<i>2</i></span><span class="w" style="flex:8" title="Recovery 8f">Recovery<i>8</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>coupdetete</td><td><code>Head_M</code></td><td class="n">(0, 0, 0)</td><td class="n">22</td><td>Active</td><td><code>pum</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>pum</code></td><td class="n">1%</td><td class="n">0°</td><td class="n">0</td><td class="n">0.0</td><td class="n">4 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Coup de tete.</p>
+</article><article class="atk" id="PummelSpecial">
+  <header><h3>PummelSpecial</h3><span class="meta">24 frames · <code>AN_Mol_PummelSpecial</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:10" title="Recovery 10f">Recovery<i>10</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>brulure</td><td><code>Antenna3_L</code></td><td class="n">(0, 0, 0)</td><td class="n">20</td><td>Active</td><td><code>pums</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>pums</code></td><td class="n">2%</td><td class="n">0°</td><td class="n">0</td><td class="n">0.0</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Brule l&#x27;adversaire avec la meche d&#x27;une antenne.</p>
+</article><article class="atk" id="FThrow">
+  <header><h3>FThrow</h3><span class="meta">30 frames · <code>AN_Mol_FThrow</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:2" title="Release 2f">Release<i>2</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Grab_M</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Release</td><td><code>thr</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>thr</code></td><td class="n">7%</td><td class="n">45°</td><td class="n">7</td><td class="n">0.6</td><td class="n">8 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Coup de botte vers l&#x27;avant. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l&#x27;adversaire (voir doc Setting Up A Throw).</p>
+</article><article class="atk" id="BThrow">
+  <header><h3>BThrow</h3><span class="meta">30 frames · <code>AN_Mol_BThrow</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:2" title="Release 2f">Release<i>2</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Grab_M</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Release</td><td><code>thr</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>thr</code></td><td class="n">9%</td><td class="n">135°</td><td class="n">7</td><td class="n">0.75</td><td class="n">8 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Pivote et le jette derriere avec une petite explosion. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l&#x27;adversaire (voir doc Setting Up A Throw).</p>
+</article><article class="atk" id="UThrow">
+  <header><h3>UThrow</h3><span class="meta">30 frames · <code>AN_Mol_UThrow</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:2" title="Release 2f">Release<i>2</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Grab_M</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Release</td><td><code>thr</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>thr</code></td><td class="n">6%</td><td class="n">90°</td><td class="n">8</td><td class="n">0.55</td><td class="n">8 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> L&#x27;expedie en l&#x27;air comme une fusee (traînee d&#x27;etincelles). Lancer a hitbox au relachement. Grab_M a animer pour deplacer l&#x27;adversaire (voir doc Setting Up A Throw).</p>
+</article><article class="atk" id="DThrow">
+  <header><h3>DThrow</h3><span class="meta">30 frames · <code>AN_Mol_DThrow</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:2" title="Release 2f">Release<i>2</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>lancer</td><td><code>Grab_M</code></td><td class="n">(0, 0, 0)</td><td class="n">30</td><td>Release</td><td><code>thr</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>thr</code></td><td class="n">5%</td><td class="n">70°</td><td class="n">6</td><td class="n">0.4</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Le plaque au sol et lui colle un petard. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l&#x27;adversaire (voir doc Setting Up A Throw).</p>
+</article><h2 class="grp-t">Getup and ledge</h2><article class="atk" id="GetupAttack">
+  <header><h3>GetupAttack</h3><span class="meta">30 frames · <code>AN_Mol_GetupAttack</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:10" title="Startup 10f">Startup<i>10</i></span><span class="w act" style="flex:6" title="Active 6f">Active<i>6</i></span><span class="w" style="flex:14" title="Recovery 14f">Recovery<i>14</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>balayage</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active</td><td><code>ga</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>ga</code></td><td class="n">6%</td><td class="n">30°</td><td class="n">8</td><td class="n">0.3</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Balayage circulaire en se relevant.</p>
+</article><article class="atk" id="GetupSpecial">
+  <header><h3>GetupSpecial</h3><span class="meta">36 frames · <code>AN_Mol_GetupSpecial</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:14" title="Startup 14f">Startup<i>14</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>souffle</td><td><code>Root_M</code></td><td class="n">(0, 0, 0)</td><td class="n">50</td><td>Active</td><td><code>gs</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>gs</code></td><td class="n">5%</td><td class="n">45°</td><td class="n">9</td><td class="n">0.2</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Petit petard sous lui en se relevant (repousse).</p>
+</article><article class="atk" id="LedgeAttack">
+  <header><h3>LedgeAttack</h3><span class="meta">38 frames · <code>AN_Mol_LedgeAttack</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:18" title="Startup 18f">Startup<i>18</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:16" title="Recovery 16f">Recovery<i>16</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>pied</td><td><code>Ankle_L</code></td><td class="n">(0, 0, 0)</td><td class="n">28</td><td>Active</td><td><code>la</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>la</code></td><td class="n">7%</td><td class="n">40°</td><td class="n">8</td><td class="n">0.25</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Remonte et coup de pied.</p>
+</article><article class="atk" id="LedgeSpecial">
+  <header><h3>LedgeSpecial</h3><span class="meta">42 frames · <code>AN_Mol_LedgeSpecial</code> · Ground</span></header>
+  <div class="bar"><span class="w" style="flex:20" title="Startup 20f">Startup<i>20</i></span><span class="w act" style="flex:4" title="Active 4f">Active<i>4</i></span><span class="w" style="flex:18" title="Recovery 18f">Recovery<i>18</i></span></div>
+  <div class="tbl"><table><thead><tr><th>Hitbox</th><th>Bone</th><th>Offset cm</th><th>Radius cm</th><th>Window</th><th>On hit</th></tr></thead><tbody><tr><td>petard</td><td><code>Wrist_R</code></td><td class="n">(0, 0, 0)</td><td class="n">34</td><td>Active</td><td><code>ls</code></td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>On hit</th><th>Dmg</th><th>Angle</th><th>BKB</th><th>KBS</th><th>Hitpause / scal.</th><th>Hitstun</th><th>Prio</th><th>Other</th></tr></thead><tbody><tr><td><code>ls</code></td><td class="n">6%</td><td class="n">45°</td><td class="n">9</td><td class="n">0.25</td><td class="n">6 / 0.0</td><td class="n">×1.0</td><td class="n">2</td><td></td></tr></tbody></table></div>
+  <p class="notes" lang="fr"><b>Design notes (FR)</b> Remonte et lance un petard au ras du rebord.</p>
+</article>
+<p class="muted" style="font-size:14px">Machine-readable version: <a href="attaques_mollo.json">attaques_mollo.json</a></p>
+</div></body></html>

@@ -1,0 +1,2933 @@
+{
+ "personnage": "Mollo",
+ "unite": "cm, 60 images/s, poses de profil (face -Y Blender)",
+ "source_frame_data": "rivals.academy Mollo (RoA patch 2.1.5.6)",
+ "attaques": {
+  "Jab1": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     5
+    ],
+    [
+     "Active",
+     2
+    ],
+    [
+     "Recovery",
+     12
+    ]
+   ],
+   "onhit": {
+    "j1": {
+     "degats": 3,
+     "angle": 40,
+     "bkb": 4,
+     "kbs": 0.0,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2,
+     "force_flinch": true
+    }
+   },
+   "landing_lag": null,
+   "notes": "Annulable en Jab2 pendant Recovery f7-12 (RoA : fenetres 7-10 et 11-12), en tilt f7-12.",
+   "total": 19,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "poing",
+     "os": "Wrist_L",
+     "rayon": 22,
+     "fenetre": "Active",
+     "onhit": "j1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 6,
+     "position_monde_cm": [
+      11.5,
+      -63.5,
+      69.6
+     ]
+    },
+    {
+     "nom": "bras",
+     "os": "Elbow_L",
+     "rayon": 16,
+     "fenetre": "Active",
+     "onhit": "j1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 6,
+     "position_monde_cm": [
+      20.8,
+      -44.9,
+      86.7
+     ]
+    }
+   ],
+   "animation": "AN_Mol_Jab1"
+  },
+  "Jab2": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     2
+    ],
+    [
+     "Active",
+     3
+    ],
+    [
+     "Recovery",
+     16
+    ]
+   ],
+   "onhit": {
+    "j2": {
+     "degats": 4,
+     "angle": 65,
+     "bkb": 6,
+     "kbs": 0.7,
+     "hitpause": 7,
+     "hitpause_scaling": 0.4,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Annulable en Jab3 pendant Recovery f9-16.",
+   "total": 21,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "poing",
+     "os": "Wrist_R",
+     "rayon": 24,
+     "fenetre": "Active",
+     "onhit": "j2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 3,
+     "position_monde_cm": [
+      -6.7,
+      -68.5,
+      65.5
+     ]
+    },
+    {
+     "nom": "bras",
+     "os": "Elbow_R",
+     "rayon": 16,
+     "fenetre": "Active",
+     "onhit": "j2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 3,
+     "position_monde_cm": [
+      -17.3,
+      -51.4,
+      83.1
+     ]
+    }
+   ],
+   "animation": "AN_Mol_Jab2"
+  },
+  "Jab3": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     8
+    ],
+    [
+     "Spray",
+     14
+    ],
+    [
+     "Recovery",
+     7
+    ]
+   ],
+   "onhit": {
+    "j3": {
+     "degats": 2,
+     "angle": 30,
+     "bkb": 4,
+     "kbs": 0.0,
+     "hitpause": 2,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 1,
+     "force_flinch": true,
+     "multihit": 4
+    }
+   },
+   "landing_lag": null,
+   "notes": "Spray boucle tant que Attaque tenue (fenetre Spray, hit toutes les 4 images). Bidon : 8 boucles pleines puis vide (hitbox 4 images sur 8). Recharge apres ~120 images sans usage. Lua : compteur bidon + VFX feu sur PropCan_R.",
+   "total": 29,
+   "fenetre_boucle": "Spray",
+   "accessoires": [
+    "Can"
+   ],
+   "hitboxes": [
+    {
+     "nom": "jet1",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Spray",
+     "onhit": "j3",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      45,
+      0
+     ],
+     "image": 15,
+     "position_monde_cm": [
+      -16.5,
+      -101.6,
+      55.1
+     ]
+    },
+    {
+     "nom": "jet2",
+     "os": "Wrist_R",
+     "rayon": 34,
+     "fenetre": "Spray",
+     "onhit": "j3",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      95,
+      0
+     ],
+     "image": 15,
+     "position_monde_cm": [
+      -10.4,
+      -146.0,
+      32.9
+     ]
+    }
+   ],
+   "animation": "AN_Mol_Jab3"
+  },
+  "DashAttack": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     6
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     27
+    ]
+   ],
+   "onhit": {
+    "da": {
+     "degats": 4,
+     "angle": 40,
+     "bkb": 8,
+     "kbs": 0.4,
+     "hitpause": 5,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2,
+     "angle_flipper": 6
+    }
+   },
+   "landing_lag": null,
+   "notes": "Endlag 18 au contact / 27 a vide. Si une bombe de Mollo est au sol a portee f9 : la ramasse et enchaine DashAttackBomb (lancer, actif 19-24, 4 %, 40°, 8-10|0.5).",
+   "total": 37,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "epaule",
+     "os": "Shoulder_L",
+     "rayon": 30,
+     "fenetre": "Active",
+     "onhit": "da",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      19.8,
+      -28.4,
+      73.9
+     ]
+    },
+    {
+     "nom": "corps",
+     "os": "Chest_M",
+     "rayon": 32,
+     "fenetre": "Active",
+     "onhit": "da",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      -4.1,
+      -10.4,
+      71.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DashAttack"
+  },
+  "FTilt": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     9
+    ],
+    [
+     "Active",
+     5
+    ],
+    [
+     "Recovery",
+     21
+    ]
+   ],
+   "onhit": {
+    "ft": {
+     "degats": 9,
+     "angle": 40,
+     "bkb": 10,
+     "kbs": 0.45,
+     "hitpause": 8,
+     "hitpause_scaling": 0.9,
+     "hitstun": 1.0,
+     "priorite": 1
+    }
+   },
+   "landing_lag": null,
+   "notes": "Coup de pied tendu (botte anti-emeute).",
+   "total": 35,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "pied",
+     "os": "Ankle_L",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "ft",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      26.1,
+      -74.6,
+      78.4
+     ]
+    },
+    {
+     "nom": "tibia",
+     "os": "Knee_L",
+     "rayon": 20,
+     "fenetre": "Active",
+     "onhit": "ft",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      21.3,
+      -47.3,
+      77.9
+     ]
+    }
+   ],
+   "animation": "AN_Mol_FTilt"
+  },
+  "UTilt": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     6
+    ],
+    [
+     "Active1",
+     2
+    ],
+    [
+     "Gap",
+     1
+    ],
+    [
+     "Active2",
+     3
+    ],
+    [
+     "Recovery",
+     15
+    ]
+   ],
+   "onhit": {
+    "ut": {
+     "degats": 8,
+     "angle": 80,
+     "bkb": 9,
+     "kbs": 0.8,
+     "hitpause": 6,
+     "hitpause_scaling": 1.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Coup de tete vers le haut, les antennes-meches fouettent (etincelles VFX sur Antenna3).",
+   "total": 27,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "tete",
+     "os": "Head_M",
+     "rayon": 26,
+     "fenetre": "Active1",
+     "onhit": "ut",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 7,
+     "position_monde_cm": [
+      0.0,
+      21.4,
+      124.6
+     ]
+    },
+    {
+     "nom": "antennes",
+     "os": "Antenna2_L",
+     "rayon": 22,
+     "fenetre": "Active2",
+     "onhit": "ut",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      5.7,
+      51.3,
+      123.7
+     ]
+    },
+    {
+     "nom": "antennesR",
+     "os": "Antenna2_R",
+     "rayon": 22,
+     "fenetre": "Active2",
+     "onhit": "ut",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      -6.9,
+      54.4,
+      125.3
+     ]
+    }
+   ],
+   "animation": "AN_Mol_UTilt"
+  },
+  "DTilt": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     4
+    ],
+    [
+     "Active",
+     8
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "dt": {
+     "degats": 5,
+     "angle": 65,
+     "bkb": 7,
+     "kbs": 0.5,
+     "hitpause": 3,
+     "hitpause_scaling": 0.35,
+     "hitstun": 1.0,
+     "priorite": 1
+    }
+   },
+   "landing_lag": null,
+   "notes": "Balayage bas.",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "pied",
+     "os": "Ankle_L",
+     "rayon": 24,
+     "fenetre": "Active",
+     "onhit": "dt",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      35.4,
+      -72.2,
+      33.8
+     ]
+    },
+    {
+     "nom": "jambe",
+     "os": "Knee_L",
+     "rayon": 18,
+     "fenetre": "Active",
+     "onhit": "dt",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      26.1,
+      -46.4,
+      37.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DTilt"
+  },
+  "NAir": {
+   "sol": "Air",
+   "fenetres": [
+    [
+     "Startup",
+     6
+    ],
+    [
+     "Active1",
+     4
+    ],
+    [
+     "Gap",
+     2
+    ],
+    [
+     "Active2",
+     6
+    ],
+    [
+     "Recovery",
+     11
+    ]
+   ],
+   "onhit": {
+    "n1": {
+     "degats": 2,
+     "angle": 55,
+     "bkb": 5,
+     "kbs": 0.0,
+     "hitpause": 4,
+     "hitpause_scaling": 0.0,
+     "hitstun": 0.5,
+     "priorite": 1,
+     "angle_flipper": 10
+    },
+    "n2": {
+     "degats": 5,
+     "angle": 55,
+     "bkb": 6,
+     "kbs": 0.4,
+     "hitpause": 5,
+     "hitpause_scaling": 0.5,
+     "hitstun": 1.0,
+     "priorite": 1,
+     "angle_flipper": 6
+    }
+   },
+   "landing_lag": 6,
+   "notes": "Toupie, la cape-ailes ouverte fouette deux fois.",
+   "total": 29,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "cape1",
+     "os": "Cape3_L",
+     "rayon": 30,
+     "fenetre": "Active1",
+     "onhit": "n1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      -20.6,
+      50.8,
+      130.7
+     ]
+    },
+    {
+     "nom": "cape1r",
+     "os": "Cape3_R",
+     "rayon": 30,
+     "fenetre": "Active1",
+     "onhit": "n1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      -20.8,
+      -57.9,
+      130.9
+     ]
+    },
+    {
+     "nom": "corps1",
+     "os": "Spine2_M",
+     "rayon": 34,
+     "fenetre": "Active1",
+     "onhit": "n1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      3.4,
+      -3.6,
+      99.3
+     ]
+    },
+    {
+     "nom": "cape2",
+     "os": "Cape3_L",
+     "rayon": 34,
+     "fenetre": "Active2",
+     "onhit": "n2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 15,
+     "position_monde_cm": [
+      54.4,
+      17.0,
+      130.7
+     ]
+    },
+    {
+     "nom": "cape2r",
+     "os": "Cape3_R",
+     "rayon": 34,
+     "fenetre": "Active2",
+     "onhit": "n2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 15,
+     "position_monde_cm": [
+      -54.3,
+      17.1,
+      130.9
+     ]
+    },
+    {
+     "nom": "corps2",
+     "os": "Spine2_M",
+     "rayon": 36,
+     "fenetre": "Active2",
+     "onhit": "n2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 15,
+     "position_monde_cm": [
+      0.0,
+      -7.0,
+      99.3
+     ]
+    }
+   ],
+   "animation": "AN_Mol_NAir"
+  },
+  "FAir": {
+   "sol": "Air",
+   "fenetres": [
+    [
+     "Startup",
+     5
+    ],
+    [
+     "Charge",
+     6
+    ],
+    [
+     "PostCharge",
+     4
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     24
+    ]
+   ],
+   "onhit": {
+    "fa": {
+     "degats": 9,
+     "angle": 310,
+     "bkb": 6,
+     "kbs": 0.5,
+     "hitpause": 12,
+     "hitpause_scaling": 0.7,
+     "hitstun": 1.0,
+     "priorite": 5
+    }
+   },
+   "landing_lag": 12,
+   "notes": "Chargeable comme un strong (tenir attaque) sur 30 images max, charge x2 : degats x1.6 (9 -> 14 %), recul total x1.25. Dropkick en piqué (310°). Lua : charge aerienne.",
+   "total": 43,
+   "fenetre_boucle": "Charge",
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "pieds",
+     "os": "Ankle_L",
+     "rayon": 28,
+     "fenetre": "Active",
+     "onhit": "fa",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 17,
+     "position_monde_cm": [
+      26.1,
+      -23.7,
+      8.2
+     ]
+    },
+    {
+     "nom": "pieds2",
+     "os": "Ankle_R",
+     "rayon": 24,
+     "fenetre": "Active",
+     "onhit": "fa",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 17,
+     "position_monde_cm": [
+      -25.8,
+      4.7,
+      4.8
+     ]
+    },
+    {
+     "nom": "jambes",
+     "os": "Knee_L",
+     "rayon": 22,
+     "fenetre": "Active",
+     "onhit": "fa",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 17,
+     "position_monde_cm": [
+      21.3,
+      -13.8,
+      33.6
+     ]
+    }
+   ],
+   "animation": "AN_Mol_FAir"
+  },
+  "BAir": {
+   "sol": "Air",
+   "fenetres": [
+    [
+     "Startup",
+     6
+    ],
+    [
+     "Active",
+     6
+    ],
+    [
+     "Recovery",
+     23
+    ]
+   ],
+   "onhit": {
+    "ba": {
+     "degats": 8,
+     "angle": 130,
+     "bkb": 7,
+     "kbs": 0.8,
+     "hitpause": 7,
+     "hitpause_scaling": 0.8,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": 9,
+   "notes": "Double ruade arriere.",
+   "total": 35,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "pieds",
+     "os": "Ankle_L",
+     "rayon": 28,
+     "fenetre": "Active",
+     "onhit": "ba",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 9,
+     "position_monde_cm": [
+      26.1,
+      70.3,
+      57.5
+     ]
+    },
+    {
+     "nom": "pieds2",
+     "os": "Ankle_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "ba",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 9,
+     "position_monde_cm": [
+      -25.8,
+      66.4,
+      49.1
+     ]
+    }
+   ],
+   "animation": "AN_Mol_BAir"
+  },
+  "UAir": {
+   "sol": "Air",
+   "fenetres": [
+    [
+     "Startup",
+     8
+    ],
+    [
+     "Active1",
+     5
+    ],
+    [
+     "Gap",
+     8
+    ],
+    [
+     "Active2",
+     5
+    ],
+    [
+     "Recovery",
+     21
+    ]
+   ],
+   "onhit": {
+    "u1": {
+     "degats": 3,
+     "angle": 100,
+     "bkb": 4,
+     "kbs": 0.0,
+     "hitpause": 3,
+     "hitpause_scaling": 0.5,
+     "hitstun": 0.8,
+     "priorite": 1
+    },
+    "u2": {
+     "degats": 6,
+     "angle": 90,
+     "bkb": 7,
+     "kbs": 0.7,
+     "hitpause": 4,
+     "hitpause_scaling": 1.0,
+     "hitstun": 1.0,
+     "priorite": 1
+    }
+   },
+   "landing_lag": 6,
+   "notes": "Deux frappes vers le haut, la seconde plus haute avec les antennes-meches.",
+   "total": 47,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "mains1",
+     "os": "Wrist_L",
+     "rayon": 24,
+     "fenetre": "Active1",
+     "onhit": "u1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      66.9,
+      -5.7,
+      146.3
+     ]
+    },
+    {
+     "nom": "mains1r",
+     "os": "Wrist_R",
+     "rayon": 24,
+     "fenetre": "Active1",
+     "onhit": "u1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      -66.5,
+      -6.7,
+      146.1
+     ]
+    },
+    {
+     "nom": "mains2",
+     "os": "Wrist_L",
+     "rayon": 28,
+     "fenetre": "Active2",
+     "onhit": "u2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 23,
+     "position_monde_cm": [
+      48.2,
+      47.3,
+      139.9
+     ]
+    },
+    {
+     "nom": "mains2r",
+     "os": "Wrist_R",
+     "rayon": 28,
+     "fenetre": "Active2",
+     "onhit": "u2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 23,
+     "position_monde_cm": [
+      -47.8,
+      46.0,
+      140.2
+     ]
+    },
+    {
+     "nom": "antennes",
+     "os": "Antenna3_L",
+     "rayon": 22,
+     "fenetre": "Active2",
+     "onhit": "u2",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 23,
+     "position_monde_cm": [
+      9.8,
+      79.0,
+      120.3
+     ]
+    }
+   ],
+   "animation": "AN_Mol_UAir"
+  },
+  "DAir": {
+   "sol": "Air",
+   "fenetres": [
+    [
+     "Startup",
+     8
+    ],
+    [
+     "Active",
+     9
+    ],
+    [
+     "Recovery",
+     14
+    ]
+   ],
+   "onhit": {
+    "spike": {
+     "degats": 6,
+     "angle": 270,
+     "bkb": 3,
+     "kbs": 0.7,
+     "hitpause": 10,
+     "hitpause_scaling": 0.8,
+     "hitstun": 1.0,
+     "priorite": 4
+    },
+    "haut": {
+     "degats": 5,
+     "angle": 70,
+     "bkb": 3,
+     "kbs": 0.4,
+     "hitpause": 6,
+     "hitpause_scaling": 0.5,
+     "hitstun": 1.0,
+     "priorite": 3
+    }
+   },
+   "landing_lag": 6,
+   "notes": "Piétinement : semelles = spike 270°, jambes = 70°.",
+   "total": 31,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "semelle",
+     "os": "Toes_L",
+     "rayon": 22,
+     "fenetre": "Active",
+     "onhit": "spike",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 12,
+     "position_monde_cm": [
+      26.1,
+      -7.8,
+      -13.8
+     ]
+    },
+    {
+     "nom": "semelle2",
+     "os": "Toes_R",
+     "rayon": 20,
+     "fenetre": "Active",
+     "onhit": "spike",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 12,
+     "position_monde_cm": [
+      -25.7,
+      -17.0,
+      -12.9
+     ]
+    },
+    {
+     "nom": "jambes",
+     "os": "Knee_L",
+     "rayon": 22,
+     "fenetre": "Active",
+     "onhit": "haut",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 12,
+     "position_monde_cm": [
+      21.3,
+      -2.4,
+      29.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DAir"
+  },
+  "FStrong": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "PreCharge",
+     8
+    ],
+    [
+     "Charge",
+     60
+    ],
+    [
+     "PostCharge",
+     4
+    ],
+    [
+     "Active1",
+     3
+    ],
+    [
+     "Gap1",
+     1
+    ],
+    [
+     "Active2",
+     3
+    ],
+    [
+     "Gap2",
+     1
+    ],
+    [
+     "Active3",
+     3
+    ],
+    [
+     "Recovery",
+     30
+    ]
+   ],
+   "onhit": {
+    "f12": {
+     "degats": 3,
+     "angle": 20,
+     "bkb": 8,
+     "kbs": 0.0,
+     "hitpause": 1,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2,
+     "untechable": true,
+     "force_flinch": true
+    },
+    "f3": {
+     "degats": 6,
+     "angle": 45,
+     "bkb": 7,
+     "kbs": 1.05,
+     "hitpause": 9,
+     "hitpause_scaling": 1.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Rafale gauche-droite puis poussee a deux mains. Variante bombe tenue -> FStrongBomb.",
+   "total": 113,
+   "fenetre_boucle": "Charge",
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "p1",
+     "os": "Wrist_L",
+     "rayon": 24,
+     "fenetre": "Active1",
+     "onhit": "f12",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 73,
+     "position_monde_cm": [
+      6.9,
+      -70.1,
+      64.8
+     ]
+    },
+    {
+     "nom": "p2",
+     "os": "Wrist_R",
+     "rayon": 24,
+     "fenetre": "Active2",
+     "onhit": "f12",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 77,
+     "position_monde_cm": [
+      -6.6,
+      -70.7,
+      64.4
+     ]
+    },
+    {
+     "nom": "p3",
+     "os": "Wrist_L",
+     "rayon": 30,
+     "fenetre": "Active3",
+     "onhit": "f3",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 81,
+     "position_monde_cm": [
+      2.1,
+      -88.5,
+      52.8
+     ]
+    },
+    {
+     "nom": "p3r",
+     "os": "Wrist_R",
+     "rayon": 30,
+     "fenetre": "Active3",
+     "onhit": "f3",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 81,
+     "position_monde_cm": [
+      -48.9,
+      -59.8,
+      52.4
+     ]
+    }
+   ],
+   "animation": "AN_Mol_FStrong"
+  },
+  "UStrong": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "PreCharge",
+     10
+    ],
+    [
+     "Charge",
+     60
+    ],
+    [
+     "PostCharge",
+     3
+    ],
+    [
+     "Active1",
+     4
+    ],
+    [
+     "Active2",
+     3
+    ],
+    [
+     "Active3",
+     3
+    ],
+    [
+     "Active4",
+     4
+    ],
+    [
+     "Recovery",
+     26
+    ]
+   ],
+   "onhit": {
+    "u13": {
+     "degats": 2,
+     "angle": 120,
+     "bkb": 9,
+     "kbs": 0.0,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    },
+    "u4": {
+     "degats": 5,
+     "angle": 90,
+     "bkb": 8,
+     "kbs": 1.0,
+     "hitpause": 12,
+     "hitpause_scaling": 1.0,
+     "hitstun": 1.0,
+     "priorite": 5
+    }
+   },
+   "landing_lag": null,
+   "notes": "Gerbe de feu d'artifice au-dessus de la tete : 3 crepitements + bouquet final (RoA : hitbox haute/basse a angles differents, ici fusionnees). VFX etincelles sur les mains.",
+   "total": 113,
+   "fenetre_boucle": "Charge",
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "gerbe1",
+     "os": "Wrist_L",
+     "rayon": 30,
+     "fenetre": "Active1",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 75,
+     "position_monde_cm": [
+      35.8,
+      4.6,
+      168.1
+     ]
+    },
+    {
+     "nom": "gerbe2",
+     "os": "Wrist_L",
+     "rayon": 30,
+     "fenetre": "Active2",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 78,
+     "position_monde_cm": [
+      27.0,
+      5.2,
+      168.4
+     ]
+    },
+    {
+     "nom": "gerbe3",
+     "os": "Wrist_L",
+     "rayon": 30,
+     "fenetre": "Active3",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 81,
+     "position_monde_cm": [
+      27.0,
+      6.3,
+      168.3
+     ]
+    },
+    {
+     "nom": "gerbe1r",
+     "os": "Wrist_R",
+     "rayon": 30,
+     "fenetre": "Active1",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 75,
+     "position_monde_cm": [
+      -35.5,
+      3.5,
+      167.5
+     ]
+    },
+    {
+     "nom": "gerbe2r",
+     "os": "Wrist_R",
+     "rayon": 30,
+     "fenetre": "Active2",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 78,
+     "position_monde_cm": [
+      -26.8,
+      3.9,
+      167.7
+     ]
+    },
+    {
+     "nom": "gerbe3r",
+     "os": "Wrist_R",
+     "rayon": 30,
+     "fenetre": "Active3",
+     "onhit": "u13",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 81,
+     "position_monde_cm": [
+      -26.8,
+      5.2,
+      167.6
+     ]
+    },
+    {
+     "nom": "bouquet",
+     "os": "Wrist_L",
+     "rayon": 40,
+     "fenetre": "Active4",
+     "onhit": "u4",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 85,
+     "position_monde_cm": [
+      18.1,
+      5.6,
+      177.2
+     ]
+    },
+    {
+     "nom": "bouquetr",
+     "os": "Wrist_R",
+     "rayon": 40,
+     "fenetre": "Active4",
+     "onhit": "u4",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 85,
+     "position_monde_cm": [
+      -17.9,
+      4.4,
+      176.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_UStrong"
+  },
+  "DStrong": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "PreCharge",
+     9
+    ],
+    [
+     "Charge",
+     60
+    ],
+    [
+     "PostCharge",
+     3
+    ],
+    [
+     "Active",
+     3
+    ],
+    [
+     "Recovery",
+     40
+    ]
+   ],
+   "onhit": {
+    "dc": {
+     "degats": 7,
+     "angle": 90,
+     "bkb": 7,
+     "kbs": 1.2,
+     "hitpause": 10,
+     "hitpause_scaling": 0.5,
+     "hitstun": 1.0,
+     "priorite": 3
+    },
+    "dside": {
+     "degats": 5,
+     "angle": 75,
+     "bkb": 7,
+     "kbs": 1.1,
+     "hitpause": 7,
+     "hitpause_scaling": 0.5,
+     "hitstun": 1.0,
+     "priorite": 2,
+     "angle_flipper": 3
+    }
+   },
+   "landing_lag": null,
+   "notes": "Frappe le sol des deux poings : explosion au centre (90°) et sur les cotes (75°). Tenir gauche/droite f17 : glissade, endlag 32 au lieu de 40.",
+   "total": 115,
+   "fenetre_boucle": "Charge",
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "centre",
+     "os": "Root_M",
+     "rayon": 34,
+     "fenetre": "Active",
+     "onhit": "dc",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      -80,
+      0
+     ],
+     "image": 73,
+     "position_monde_cm": [
+      0.0,
+      2.4,
+      -36.5
+     ]
+    },
+    {
+     "nom": "gauche",
+     "os": "Wrist_L",
+     "rayon": 30,
+     "fenetre": "Active",
+     "onhit": "dside",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 73,
+     "position_monde_cm": [
+      1.5,
+      23.6,
+      39.8
+     ]
+    },
+    {
+     "nom": "droite",
+     "os": "Wrist_R",
+     "rayon": 30,
+     "fenetre": "Active",
+     "onhit": "dside",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 73,
+     "position_monde_cm": [
+      -1.9,
+      23.4,
+      38.8
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DStrong"
+  },
+  "FStrongBomb": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     13
+    ],
+    [
+     "Active",
+     3
+    ],
+    [
+     "Recovery",
+     6
+    ]
+   ],
+   "onhit": {
+    "bt": {
+     "degats": 5,
+     "angle": 40,
+     "bkb": 10,
+     "kbs": 0.0,
+     "hitpause": 5,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l'article bombe avec vitesse et charge.",
+   "total": 22,
+   "fenetre_boucle": null,
+   "accessoires": [
+    "Bomb"
+   ],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "bt",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 14,
+     "position_monde_cm": [
+      -6.6,
+      -70.7,
+      64.4
+     ]
+    }
+   ],
+   "animation": "AN_Mol_FStrongBomb"
+  },
+  "UStrongBomb": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     9
+    ],
+    [
+     "Active",
+     3
+    ],
+    [
+     "Recovery",
+     12
+    ]
+   ],
+   "onhit": {
+    "bt": {
+     "degats": 5,
+     "angle": 90,
+     "bkb": 10,
+     "kbs": 0.0,
+     "hitpause": 5,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l'article bombe avec vitesse et charge.",
+   "total": 24,
+   "fenetre_boucle": null,
+   "accessoires": [
+    "Bomb"
+   ],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "bt",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      -35.5,
+      3.5,
+      167.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_UStrongBomb"
+  },
+  "DStrongBomb": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     9
+    ],
+    [
+     "Active",
+     1
+    ],
+    [
+     "Recovery",
+     5
+    ]
+   ],
+   "onhit": {},
+   "landing_lag": null,
+   "notes": "Lancer de la bombe tenue ; une charge complete la rend instable au lancer. Lua : relache l'article bombe avec vitesse et charge.",
+   "total": 15,
+   "fenetre_boucle": null,
+   "accessoires": [
+    "Bomb"
+   ],
+   "hitboxes": [],
+   "animation": "AN_Mol_DStrongBomb"
+  },
+  "NSpecial": {
+   "sol": "Both",
+   "fenetres": [
+    [
+     "Startup",
+     4
+    ],
+    [
+     "Pull",
+     12
+    ],
+    [
+     "Recovery",
+     2
+    ]
+   ],
+   "onhit": {},
+   "landing_lag": null,
+   "notes": "Sort une bombe de la ceinture. Direction tenue : haut = Cerise, gauche = Petard, droite = Flashbang, bas = Finisher, neutre = Cerise. Meche de 120 images des f16, puis instable et explose 50 images plus tard ; explose aussi 50 images apres le lancer, au contact, ou si Mollo est touche. Implementation R2 : article tenable (Is Holdable Item) monte sur la socket Item ; les lancers passent par les animations ItemThrow*.",
+   "total": 18,
+   "fenetre_boucle": null,
+   "accessoires": [
+    "Bomb"
+   ],
+   "hitboxes": [],
+   "animation": "AN_Mol_NSpecial"
+  },
+  "FSpecial": {
+   "sol": "Both",
+   "fenetres": [
+    [
+     "Startup",
+     21
+    ],
+    [
+     "Aim",
+     1
+    ],
+    [
+     "Fire",
+     14
+    ],
+    [
+     "Recovery",
+     9
+    ]
+   ],
+   "onhit": {
+    "flare": {
+     "degats": 4,
+     "angle": 80,
+     "bkb": 6,
+     "kbs": 0.4,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 0.5,
+     "priorite": 3,
+     "angle_flipper": 7
+    }
+   },
+   "landing_lag": null,
+   "notes": "Pistolet de detresse. Fenetre Aim tenue tant que special tenu : un curseur se deplace au stick (Lua). Au relachement, la fusee (article projectile) part vers le curseur, touche a 36-40 (43-47 si bombe tenue, +7 images de demarrage). Elle a une grande hitbox qui ne touche que les bombes : elle les fait exploser tout de suite.",
+   "total": 45,
+   "fenetre_boucle": "Aim",
+   "accessoires": [
+    "Gun"
+   ],
+   "hitboxes": [],
+   "animation": "AN_Mol_FSpecial"
+  },
+  "USpecial": {
+   "sol": "Both",
+   "fenetres": [
+    [
+     "Startup",
+     14
+    ],
+    [
+     "Launch",
+     4
+    ],
+    [
+     "Travel",
+     30
+    ],
+    [
+     "Recovery",
+     13
+    ]
+   ],
+   "onhit": {
+    "lancement": {
+     "degats": 4,
+     "angle": 90,
+     "bkb": 7,
+     "kbs": 0.5,
+     "hitpause": 3,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2,
+     "force_flinch": true
+    },
+    "voyage": {
+     "degats": 2,
+     "angle": 90,
+     "bkb": 5,
+     "kbs": 0.4,
+     "hitpause": 2,
+     "hitpause_scaling": 0.0,
+     "hitstun": 0.5,
+     "priorite": 5,
+     "multihit": 5
+    }
+   },
+   "landing_lag": null,
+   "notes": "Fusee de feu d'artifice : Mollo s'accroche et monte en vrille, 5 touches pendant le trajet (24-28, 30-34, 34-38, 36-43, 45-49), puis chute libre (pratfall). Bouclier pendant 22-36 = annulation (12 images d'endlag). Si bombe tenue : lancee en fin de coup, instable. Velocite : voir doc Recovery Moves (Special Fall + Special Land).",
+   "total": 61,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "decollage",
+     "os": "Root_M",
+     "rayon": 34,
+     "fenetre": "Launch",
+     "onhit": "lancement",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 16,
+     "position_monde_cm": [
+      0.0,
+      -3.6,
+      87.5
+     ]
+    },
+    {
+     "nom": "trainee",
+     "os": "Root_M",
+     "rayon": 30,
+     "fenetre": "Travel",
+     "onhit": "voyage",
+     "debut": 6,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 39,
+     "position_monde_cm": [
+      0.0,
+      -3.6,
+      87.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_USpecial"
+  },
+  "DSpecial": {
+   "sol": "Both",
+   "fenetres": [
+    [
+     "Startup",
+     38
+    ],
+    [
+     "Active1",
+     3
+    ],
+    [
+     "Active2",
+     3
+    ],
+    [
+     "Recovery",
+     22
+    ]
+   ],
+   "onhit": {
+    "b1": {
+     "degats": 6,
+     "angle": 50,
+     "bkb": 7,
+     "kbs": 0.3,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 3
+    },
+    "aigre": {
+     "degats": 11,
+     "angle": 40,
+     "bkb": 8,
+     "kbs": 0.95,
+     "hitpause": 5,
+     "hitpause_scaling": 1.0,
+     "hitstun": 1.0,
+     "priorite": 6
+    },
+    "tip": {
+     "degats": 16,
+     "angle": 40,
+     "bkb": 9,
+     "kbs": 1.05,
+     "hitpause": 10,
+     "hitpause_scaling": 3.0,
+     "hitstun": 1.0,
+     "priorite": 5
+    }
+   },
+   "landing_lag": null,
+   "notes": "Batte de baseball. Demi-tour possible f11. Si une bombe est equipee, elle passe au bout de la batte et explose f42. Frapper ses bombes en l'air en tenant avant les envoie beaucoup plus loin.",
+   "total": 66,
+   "fenetre_boucle": null,
+   "accessoires": [
+    "Bat"
+   ],
+   "hitboxes": [
+    {
+     "nom": "elan",
+     "os": "PropBat_R",
+     "rayon": 26,
+     "fenetre": "Active1",
+     "onhit": "b1",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      40,
+      0
+     ],
+     "image": 39,
+     "position_monde_cm": [
+      -89.2,
+      -3.9,
+      45.7
+     ]
+    },
+    {
+     "nom": "acide",
+     "os": "PropBat_R",
+     "rayon": 22,
+     "fenetre": "Active2",
+     "onhit": "aigre",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      20,
+      0
+     ],
+     "image": 42,
+     "position_monde_cm": [
+      -77.0,
+      -3.9,
+      61.6
+     ]
+    },
+    {
+     "nom": "pointe",
+     "os": "PropBat_R",
+     "rayon": 26,
+     "fenetre": "Active2",
+     "onhit": "tip",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      70,
+      0
+     ],
+     "image": 42,
+     "position_monde_cm": [
+      -107.5,
+      -3.9,
+      22.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DSpecial"
+  },
+  "Taunt": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Allume",
+     30
+    ],
+    [
+     "Souffle",
+     30
+    ],
+    [
+     "Recovery",
+     20
+    ]
+   ],
+   "onhit": {},
+   "landing_lag": null,
+   "notes": "Allume ses antennes avec une allumette et souffle la fumee (VFX fumee + etincelles sur Antenna3_L/R).",
+   "total": 80,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [],
+   "animation": "AN_Mol_Taunt"
+  },
+  "Grab": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     7
+    ],
+    [
+     "Active",
+     2
+    ],
+    [
+     "Recovery",
+     30
+    ]
+   ],
+   "onhit": {
+    "grab": {
+     "type": "grab"
+    }
+   },
+   "landing_lag": null,
+   "notes": "Saisie a deux mains. Valeurs R2 universelles a reprendre d'un perso de reference.",
+   "total": 39,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "saisie",
+     "os": "Wrist_L",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      31.9,
+      -51.7,
+      61.6
+     ]
+    },
+    {
+     "nom": "saisie2",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 8,
+     "position_monde_cm": [
+      -31.9,
+      -52.4,
+      61.1
+     ]
+    }
+   ],
+   "animation": "AN_Mol_Grab"
+  },
+  "DashGrab": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     9
+    ],
+    [
+     "Active",
+     2
+    ],
+    [
+     "Recovery",
+     30
+    ]
+   ],
+   "onhit": {
+    "grab": {
+     "type": "grab"
+    }
+   },
+   "landing_lag": null,
+   "notes": "Saisie a deux mains. Valeurs R2 universelles a reprendre d'un perso de reference.",
+   "total": 41,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "saisie",
+     "os": "Wrist_L",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      31.9,
+      -51.7,
+      61.6
+     ]
+    },
+    {
+     "nom": "saisie2",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 10,
+     "position_monde_cm": [
+      -31.9,
+      -52.4,
+      61.1
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DashGrab"
+  },
+  "PivotGrab": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Active",
+     2
+    ],
+    [
+     "Recovery",
+     30
+    ]
+   ],
+   "onhit": {
+    "grab": {
+     "type": "grab"
+    }
+   },
+   "landing_lag": null,
+   "notes": "Saisie a deux mains. Valeurs R2 universelles a reprendre d'un perso de reference.",
+   "total": 42,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "saisie",
+     "os": "Wrist_L",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      31.9,
+      -51.7,
+      61.6
+     ]
+    },
+    {
+     "nom": "saisie2",
+     "os": "Wrist_R",
+     "rayon": 26,
+     "fenetre": "Active",
+     "onhit": "grab",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      -31.9,
+      -52.4,
+      61.1
+     ]
+    }
+   ],
+   "animation": "AN_Mol_PivotGrab"
+  },
+  "Pummel": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     4
+    ],
+    [
+     "Active",
+     2
+    ],
+    [
+     "Recovery",
+     8
+    ]
+   ],
+   "onhit": {
+    "pum": {
+     "degats": 1,
+     "angle": 0,
+     "bkb": 0,
+     "kbs": 0.0,
+     "hitpause": 4,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Coup de tete.",
+   "total": 14,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "coupdetete",
+     "os": "Head_M",
+     "rayon": 22,
+     "fenetre": "Active",
+     "onhit": "pum",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 5,
+     "position_monde_cm": [
+      0.0,
+      -20.4,
+      130.6
+     ]
+    }
+   ],
+   "animation": "AN_Mol_Pummel"
+  },
+  "PummelSpecial": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     10
+    ]
+   ],
+   "onhit": {
+    "pums": {
+     "degats": 2,
+     "angle": 0,
+     "bkb": 0,
+     "kbs": 0.0,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Brule l'adversaire avec la meche d'une antenne.",
+   "total": 24,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "brulure",
+     "os": "Antenna3_L",
+     "rayon": 20,
+     "fenetre": "Active",
+     "onhit": "pums",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 12,
+     "position_monde_cm": [
+      9.8,
+      -29.2,
+      130.8
+     ]
+    }
+   ],
+   "animation": "AN_Mol_PummelSpecial"
+  },
+  "FThrow": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Release",
+     2
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "thr": {
+     "degats": 7,
+     "angle": 45,
+     "bkb": 7,
+     "kbs": 0.6,
+     "hitpause": 8,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Coup de botte vers l'avant. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l'adversaire (voir doc Setting Up A Throw).",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Grab_M",
+     "rayon": 30,
+     "fenetre": "Release",
+     "onhit": "thr",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      0.0,
+      -110.0,
+      70.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_FThrow"
+  },
+  "BThrow": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Release",
+     2
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "thr": {
+     "degats": 9,
+     "angle": 135,
+     "bkb": 7,
+     "kbs": 0.75,
+     "hitpause": 8,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Pivote et le jette derriere avec une petite explosion. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l'adversaire (voir doc Setting Up A Throw).",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Grab_M",
+     "rayon": 30,
+     "fenetre": "Release",
+     "onhit": "thr",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      0.0,
+      90.0,
+      90.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_BThrow"
+  },
+  "UThrow": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Release",
+     2
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "thr": {
+     "degats": 6,
+     "angle": 90,
+     "bkb": 8,
+     "kbs": 0.55,
+     "hitpause": 8,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "L'expedie en l'air comme une fusee (traînee d'etincelles). Lancer a hitbox au relachement. Grab_M a animer pour deplacer l'adversaire (voir doc Setting Up A Throw).",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Grab_M",
+     "rayon": 30,
+     "fenetre": "Release",
+     "onhit": "thr",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      0.0,
+      -15.0,
+      200.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_UThrow"
+  },
+  "DThrow": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Release",
+     2
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "thr": {
+     "degats": 5,
+     "angle": 70,
+     "bkb": 6,
+     "kbs": 0.4,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Le plaque au sol et lui colle un petard. Lancer a hitbox au relachement. Grab_M a animer pour deplacer l'adversaire (voir doc Setting Up A Throw).",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "lancer",
+     "os": "Grab_M",
+     "rayon": 30,
+     "fenetre": "Release",
+     "onhit": "thr",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 11,
+     "position_monde_cm": [
+      0.0,
+      -60.0,
+      15.0
+     ]
+    }
+   ],
+   "animation": "AN_Mol_DThrow"
+  },
+  "GetupAttack": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     10
+    ],
+    [
+     "Active",
+     6
+    ],
+    [
+     "Recovery",
+     14
+    ]
+   ],
+   "onhit": {
+    "ga": {
+     "degats": 6,
+     "angle": 30,
+     "bkb": 8,
+     "kbs": 0.3,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Balayage circulaire en se relevant.",
+   "total": 30,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "balayage",
+     "os": "Ankle_L",
+     "rayon": 28,
+     "fenetre": "Active",
+     "onhit": "ga",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 13,
+     "position_monde_cm": [
+      23.8,
+      -74.6,
+      47.6
+     ]
+    }
+   ],
+   "animation": "AN_Mol_GetupAttack"
+  },
+  "GetupSpecial": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     14
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "gs": {
+     "degats": 5,
+     "angle": 45,
+     "bkb": 9,
+     "kbs": 0.2,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Petit petard sous lui en se relevant (repousse).",
+   "total": 36,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "souffle",
+     "os": "Root_M",
+     "rayon": 50,
+     "fenetre": "Active",
+     "onhit": "gs",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 16,
+     "position_monde_cm": [
+      0.0,
+      2.4,
+      49.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_GetupSpecial"
+  },
+  "LedgeAttack": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     18
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     16
+    ]
+   ],
+   "onhit": {
+    "la": {
+     "degats": 7,
+     "angle": 40,
+     "bkb": 8,
+     "kbs": 0.25,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Remonte et coup de pied.",
+   "total": 38,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "pied",
+     "os": "Ankle_L",
+     "rayon": 28,
+     "fenetre": "Active",
+     "onhit": "la",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 20,
+     "position_monde_cm": [
+      26.1,
+      -80.4,
+      84.8
+     ]
+    }
+   ],
+   "animation": "AN_Mol_LedgeAttack"
+  },
+  "LedgeSpecial": {
+   "sol": "Ground",
+   "fenetres": [
+    [
+     "Startup",
+     20
+    ],
+    [
+     "Active",
+     4
+    ],
+    [
+     "Recovery",
+     18
+    ]
+   ],
+   "onhit": {
+    "ls": {
+     "degats": 6,
+     "angle": 45,
+     "bkb": 9,
+     "kbs": 0.25,
+     "hitpause": 6,
+     "hitpause_scaling": 0.0,
+     "hitstun": 1.0,
+     "priorite": 2
+    }
+   },
+   "landing_lag": null,
+   "notes": "Remonte et lance un petard au ras du rebord.",
+   "total": 42,
+   "fenetre_boucle": null,
+   "accessoires": [],
+   "hitboxes": [
+    {
+     "nom": "petard",
+     "os": "Wrist_R",
+     "rayon": 34,
+     "fenetre": "Active",
+     "onhit": "ls",
+     "debut": 0,
+     "duree": 0,
+     "decalage_cm": [
+      0,
+      0,
+      0
+     ],
+     "image": 22,
+     "position_monde_cm": [
+      -29.3,
+      -51.9,
+      82.5
+     ]
+    }
+   ],
+   "animation": "AN_Mol_LedgeSpecial"
+  }
+ }
+}

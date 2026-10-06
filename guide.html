@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modding Mollo with Claude Code</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Print layout: A4, one reading column, full-width figures. White paper, plum ink, lit-fuse orange. */
+:root {
+  --paper: #ffffff;
+  --ink: #23182b;
+  --soft: #5d4d66;
+  --rule: #e2d9e6;
+  --tint: #f6f1f8;
+  --fuse: #a5520b;
+  --cherry: #c2334a;
+  --ok: #2f7a45;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+@page { size: A4; margin: 16mm 17mm 18mm; }
+@page :first { margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font: 10.6pt/1.55 var(--body); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1, h2, h3 { font-family: var(--display); line-height: 1; margin: 0; text-wrap: balance; }
+h2 { font-size: 30pt; font-weight: 900; text-transform: uppercase; letter-spacing: .01em; margin-bottom: 4mm; }
+h2 small { display: block; font: 600 8pt/1 var(--mono); letter-spacing: .16em; color: var(--fuse); margin-bottom: 2.5mm; }
+h3 { font-size: 15pt; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; margin: 5mm 0 2mm; break-after: avoid; }
+p { margin: 0 0 2.6mm; max-width: 165mm; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; max-width: 165mm; }
+li { margin-bottom: 1.2mm; }
+code { font: 8.6pt var(--mono); background: var(--tint); padding: .3mm 1.2mm; border-radius: 1mm; }
+b { font-weight: 700; }
+.chapter { break-before: page; }
+.keep { break-inside: avoid; }
+figure { margin: 3mm 0 4mm; break-inside: avoid; }
+figure img { width: 100%; display: block; border-radius: 1.5mm; border: .3mm solid var(--rule); }
+figcaption { font-size: 8.6pt; color: var(--soft); margin-top: 1.5mm; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.note { background: var(--tint); border-left: 1.2mm solid var(--fuse); padding: 3mm 4mm; margin: 3mm 0 4mm; break-inside: avoid; }
+.note.warn { border-left-color: var(--cherry); }
+.note p:last-child { margin-bottom: 0; }
+.note b:first-child { color: var(--fuse); }
+.note.warn b:first-child { color: var(--cherry); }
+
+/* cover */
+.cover { height: 297mm; background: #1a1220; color: #f3e9e0; position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; padding: 20mm 18mm; }
+.cover .art { position: absolute; right: -6mm; bottom: 46mm; width: 92mm; opacity: .95; }
+.cover .kicker { font: 600 9pt/1 var(--mono); letter-spacing: .18em; color: #ffb347; text-transform: uppercase; }
+.cover h1 { font-size: 60pt; font-weight: 900; text-transform: uppercase; line-height: .92; margin-top: 12mm; max-width: 110mm; position: relative; }
+.cover h1 span { color: #ffb347; }
+.cover .sub { font-size: 13pt; max-width: 88mm; margin-top: 7mm; color: #e3d4dc; position: relative; }
+.cover .foot { font-size: 9pt; color: #bfaebb; display: grid; gap: 1.5mm; position: relative; max-width: 100mm; }
+.cover .foot b { color: #f3e9e0; }
+
+/* numbers */
+.nums { display: grid; grid-template-columns: repeat(3, 1fr); border: .3mm solid var(--rule); margin: 4mm 0; break-inside: avoid; }
+.nums div { padding: 3.5mm 4mm; border-right: .3mm solid var(--rule); border-bottom: .3mm solid var(--rule); }
+.nums div:nth-child(3n) { border-right: 0; }
+.nums div:nth-last-child(-n+3) { border-bottom: 0; }
+.nums b { display: block; font: 900 24pt/1 var(--display); color: var(--fuse); font-variant-numeric: tabular-nums; }
+.nums span { font-size: 8.6pt; color: var(--soft); }
+
+/* flow diagram */
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm 6mm; margin: 4mm 0; break-inside: avoid; }
+.step { border: .35mm solid var(--rule); border-radius: 2mm; padding: 2.5mm 3mm; position: relative; background: var(--paper); }
+.step i { font: 600 7pt/1 var(--mono); color: var(--soft); font-style: normal; letter-spacing: .1em; text-transform: uppercase; }
+.step b { display: block; font: 800 11.5pt/1.1 var(--display); text-transform: uppercase; margin: 1mm 0; }
+.step span { font-size: 8.2pt; color: var(--soft); line-height: 1.35; display: block; }
+.step.done { border-color: var(--ok); }
+.step.done i { color: var(--ok); }
+.step.todo { border-color: var(--fuse); border-style: dashed; }
+.step.todo i { color: var(--fuse); }
+.step:not(:nth-child(4n))::after { content: "→"; position: absolute; right: -5mm; top: 40%; color: var(--soft); font-size: 11pt; }
+
+/* loop diagram */
+.loop { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 4mm 0; break-inside: avoid; border: .35mm solid var(--rule); border-radius: 2mm; overflow: hidden; }
+.loop div { padding: 3mm; border-right: .35mm solid var(--rule); }
+.loop div:last-child { border-right: 0; background: var(--tint); }
+.loop b { display: block; font: 800 12pt/1 var(--display); text-transform: uppercase; color: var(--fuse); margin-bottom: 1.2mm; }
+.loop span { font-size: 8.4pt; color: var(--soft); }
+.loopnote { font: 600 8pt var(--mono); color: var(--soft); text-align: center; margin-top: -2mm; margin-bottom: 4mm; }
+
+/* tables */
+table { border-collapse: collapse; width: 100%; margin: 3mm 0 4mm; font-size: 9pt; break-inside: avoid; }
+th, td { text-align: left; vertical-align: top; padding: 2mm 2.6mm; border-bottom: .3mm solid var(--rule); }
+th { font: 600 7.4pt/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); background: var(--tint); }
+td.y { color: var(--ok); font-weight: 700; }
+td.n { color: var(--cherry); font-weight: 700; }
+td.m { color: var(--fuse); font-weight: 700; }
+td:first-child { font-weight: 700; }
+
+/* bug log */
+.bug { display: grid; grid-template-columns: 21mm 1fr; gap: 4mm; padding: 2.4mm 0; border-bottom: .3mm solid var(--rule); break-inside: avoid; }
+.bug .t { font: 800 10pt/1.15 var(--display); text-transform: uppercase; color: var(--cherry); }
+.bug p { margin: 0; font-size: 9.4pt; }
+.bug p + p { color: var(--soft); margin-top: 1mm; }
+
+dl { display: grid; grid-template-columns: 34mm 1fr; gap: 1.6mm 5mm; margin: 3mm 0; font-size: 9.4pt; }
+dt { font-weight: 700; }
+dd { margin: 0; color: var(--ink); }
+.small { font-size: 8.6pt; color: var(--soft); }
+
+@media screen {
+  body { background: #e9e2ec; }
+  body > section { max-width: 210mm; margin: 0 auto 10mm; background: var(--paper); padding: 16mm 17mm 18mm; box-shadow: 0 1mm 4mm rgba(35,24,43,.12); }
+  body > section.cover { padding: 20mm 18mm; }
+  .site-nav { max-width: 210mm; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 12px 0; font: 600 9.5pt/1.4 var(--mono); }
+  .site-nav a { color: var(--soft); text-decoration: none; }
+  .site-nav a[aria-current] { color: var(--fuse); }
+}
+@media screen and (max-width: 640px) {
+  .site-nav { padding: 12px 16px; }
+  body > section { padding: 22px 16px; margin-bottom: 12px; }
+  body > section.cover { height: auto; min-height: 0; padding: 28px 16px; gap: 20px; }
+  .cover h1 { font-size: 40pt; max-width: none; }
+  .cover .art { position: static; width: 70%; margin: 16px auto 0; display: block; }
+  .two, .flow, .loop, .nums { grid-template-columns: 1fr 1fr; }
+  .two { grid-template-columns: 1fr; }
+  .step::after { display: none; }
+  .nums div { border-right: .3mm solid var(--rule) !important; border-bottom: .3mm solid var(--rule) !important; }
+  .loop div { border-bottom: .35mm solid var(--rule); }
+  dl { grid-template-columns: 1fr; gap: 0; }
+  dd { margin-bottom: 8px; }
+  .bug { grid-template-columns: 1fr; gap: 4px; }
+  table { display: block; overflow-x: auto; }
+  h2 { font-size: 24pt; }
+}
+@media print { .site-nav { display: none; } }
+</style>
+</head>
+<body>
+<nav class="site-nav"><a href="index.html">Mollo → R2</a><a href="rapport.html">Build report</a><a href="guide.html" aria-current=page>Beginner guide</a><a href="attaques.html">Attack sheet</a><a href="Mollo_Rivals2_guide.pdf">PDF (14 p.)</a></nav>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="kicker">A beginner's field report · Rivals of Aether II Workshop</div>
+  <div>
+    <h1>Porting <span>Mollo</span> to Rivals 2 with an AI</h1>
+    <p class="sub">What it takes to turn a 2D fan-favorite into a 3D fighting game character, step by step. What the AI did, how it did it, and why a chat window alone could not have done it.</p>
+    <img class="art" src="img/concept_front.jpg" alt="">
+  </div>
+  <div class="foot">
+    <span><b>Character:</b> Mollo, created by Giik, made official in Rivals of Aether (2021). Property of Aether Studios.</span>
+    <span><b>Tools:</b> Claude Code, Blender 5.2, TRELLIS, Grok image model, Rivals 2 Mod Kit (Unreal 5.8)</span>
+    <span><b>Status:</b> phase 1 finished (model, rig, 125 animations, 36 attacks). Phase 2 needs the Mod Kit.</span>
+    <span><b>Date:</b> 6 October 2026 · private build, not for publication</span>
+  </div>
+</section>
+
+<!-- ================= 1. THE GOAL ================= -->
+<section class="chapter">
+  <h2><small>Chapter 1</small>The goal</h2>
+  <p>Rivals of Aether 2 is a platform fighter, like Smash Bros. Its developers released a free <b>Workshop</b>: a modding kit that lets anyone add characters to the game. The request was simple to say and big to do:</p>
+  <div class="note"><p><b>The request.</b> "I want to port Mollo into Rivals 2 as a mod character. Read the documentation with attention and build everything. Ask me any questions you want, and take all your time."</p></div>
+  <p>Mollo is a moth in riot gear from the first Rivals game. His antennae are lit fuses, he wears his wings as a tattered cape, and he fights with bombs. In the first game he was a <b>2D pixel-art</b> character. Rivals 2 is a <b>3D</b> game. So "porting" him means rebuilding him from scratch in 3D.</p>
+
+  <h3>What a character mod is made of</h3>
+  <p>If you have never modded a fighting game, here is the shopping list. Each item is explained in the glossary at the end.</p>
+  <ul>
+    <li><b>A 3D model</b> (the "mesh"): the shape of the character, about 50,000 triangles for a Rivals 2 character.</li>
+    <li><b>Textures</b>: the images painted onto the model (colors, shading).</li>
+    <li><b>A skeleton</b> (the "rig"): invisible bones inside the model so it can move.</li>
+    <li><b>Animations</b>: about 95 movement states (idle, run, jump, get hit, hang on a ledge...) plus every attack. All at 60 frames per second.</li>
+    <li><b>Attack data</b>: for each attack, when it starts hurting (frame by frame), where the hitboxes are, how much damage, which angle the opponent flies.</li>
+    <li><b>Scripts</b> in the Lua language for anything special, like Mollo's bombs with their fuse timers.</li>
+    <li>All of this assembled in <b>Unreal Engine</b>, the engine Rivals 2 runs on, through the official Mod Kit.</li>
+  </ul>
+  <p>A professional studio spends weeks or months on one character, with a modeler, a rigger, animators and a designer. This report shows how far one evening of work with an AI agent got.</p>
+
+  <div class="nums">
+    <div><b>195 cm</b><span>height in game, antennae included</span></div>
+    <div><b>23.9k</b><span>triangles</span></div>
+    <div><b>56</b><span>bones, official naming</span></div>
+    <div><b>125</b><span>animations at 60 fps</span></div>
+    <div><b>36</b><span>attacks with frame data and hitboxes</span></div>
+    <div><b>≈ 0.19 $</b><span>paid image generation (2 images)</span></div>
+  </div>
+</section>
+
+<!-- ================= 2. CLAUDE VS CLAUDE CODE ================= -->
+<section class="chapter">
+  <h2><small>Chapter 2</small>Chat vs. agent</h2>
+  <p>There are two very different ways to use the same AI model.</p>
+  <div class="two">
+    <div class="note keep"><p><b>Claude (the chat).</b> You type, it answers with text. It can explain, plan and write code. But it lives in a window. It cannot open your files, launch Blender, download anything, or see what its code produced unless you show it.</p></div>
+    <div class="note keep"><p><b>Claude Code (the agent).</b> The same model, given <b>tools</b>: a terminal on your computer, your file system, a web browser, the ability to look at images. It writes a script, runs it, looks at the result, and fixes it. You stay in charge, and it asks before anything risky.</p></div>
+  </div>
+
+  <h3>The loop that makes the difference</h3>
+  <p>Almost every useful discovery in this project came from one cycle, repeated dozens of times:</p>
+  <div class="loop">
+    <div><b>1 · Write</b><span>a Blender script (for example: move the legs into a kick)</span></div>
+    <div><b>2 · Run</b><span>Blender in the background, no window, a few seconds</span></div>
+    <div><b>3 · Render</b><span>pictures of the result from several angles</span></div>
+    <div><b>4 · Look</b><span>the AI opens the pictures, spots what is wrong, goes back to 1</span></div>
+  </div>
+  <p class="loopnote">↻ about 45 Blender runs in this project</p>
+  <p>In a chat, <b>you</b> would be steps 2, 3 and 4: copy the script, paste it into Blender, take screenshots, upload them, describe what you see, copy the next fix. Possible, but slow, and error-prone for a beginner who cannot yet tell a weight-painting bug from a bone-placement bug.</p>
+
+  <div class="keep"><h3>Side by side</h3>
+  <table>
+    <thead><tr><th>Task in this project</th><th>Claude chat</th><th>Claude Code</th></tr></thead>
+    <tbody>
+      <tr><td>Read the 50 pages of Workshop docs</td><td class="m">Partly: with web access, page by page</td><td class="y">Yes, then kept them as working notes</td></tr>
+      <tr><td>Check what is installed on your PC</td><td class="n">No</td><td class="y">Yes: found Rivals 1 and 2, Blender, Steam folders</td></tr>
+      <tr><td>Download the official reference skeletons</td><td class="n">No</td><td class="y">Yes, after asking you</td></tr>
+      <tr><td>Generate concept art, turn it into 3D</td><td class="n">No (it can write the prompt)</td><td class="y">Yes: called the image API and TRELLIS</td></tr>
+      <tr><td>Write the Blender scripts</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+      <tr><td>Run them and see the result</td><td class="n">No: you run them, you send screenshots</td><td class="y">Yes, headless, then looks at its own renders</td></tr>
+      <tr><td>Find and fix the 10 bugs of chapter 5</td><td class="m">Only through your screenshots, one round trip each</td><td class="y">Yes, each one in minutes</td></tr>
+      <tr><td>Bake and export 125 animations</td><td class="n">No</td><td class="y">Yes, 1 minute 20 per full rebuild</td></tr>
+      <tr><td>Log into Epic, click inside Unreal</td><td class="n">No</td><td class="n">No: your accounts, your clicks</td></tr>
+      <tr><td>Play the character and judge the feel</td><td class="n">No</td><td class="n">No: only a player can</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><p><b>Be fair to the chat.</b> A patient beginner with a chat AI could reach the same result. They would have to run every script themselves, describe every render, and catch every mistake by eye. The model's knowledge is the same; the hands and eyes are what change.</p></div>
+</section>
+
+<!-- ================= 3. STEP BY STEP ================= -->
+<section class="chapter">
+  <h2><small>Chapter 3</small>The build, step by step</h2>
+  <div class="flow">
+    <div class="step done"><i>Step 1 · done</i><b>Read the docs</b><span>Workshop guide, frame data, the original mod</span></div>
+    <div class="step done"><i>Step 2 · done</i><b>Ask questions</b><span>2D or 3D? Private or public? Who installs what?</span></div>
+    <div class="step done"><i>Step 3 · done</i><b>Concept art</b><span>Front and back, A-pose</span></div>
+    <div class="step done"><i>Step 4 · done</i><b>Image → 3D</b><span>TRELLIS builds a textured mesh</span></div>
+    <div class="step done"><i>Step 5 · done</i><b>Rig</b><span>56 bones, skin weights, 7 versions</span></div>
+    <div class="step done"><i>Step 6 · done</i><b>Animate</b><span>125 states, data-driven poses</span></div>
+    <div class="step done"><i>Step 7 · done</i><b>Attacks</b><span>Frame data, hitboxes, checks</span></div>
+    <div class="step done"><i>Step 8 · done</i><b>Export</b><span>FBX and textures in R2 format</span></div>
+    <div class="step todo"><i>Step 9 · to do</i><b>Mod Kit</b><span>Install Unreal 5.8 kit (you)</span></div>
+    <div class="step todo"><i>Step 10 · to do</i><b>Import</b><span>Mesh, animations, materials, hurtboxes</span></div>
+    <div class="step todo"><i>Step 11 · to do</i><b>Lua</b><span>Bombs, fuse, flare gun aim</span></div>
+    <div class="step todo"><i>Step 12 · to do</i><b>Playtest</b><span>Balance the knockback</span></div>
+  </div>
+
+  <h3>Step 1 · Read before touching anything</h3>
+  <p>The AI read the official Workshop documentation: installation, the 3D character pipeline (model, rig, animation, textures, export), attacks, throws, articles (projectiles), file naming, and the list of known bugs. It also found the frame data of every Mollo attack on <i>Rivals Academy</i>, a community wiki, as a clean data file (YAML).</p>
+  <p>Then it checked the computer: Rivals 1 and Rivals 2 were installed, Blender 5.2 too, but <b>not the Mod Kit</b>. It also noticed that Mollo's original sprites are locked inside the Rivals 1 game file, because he is now an official character.</p>
+
+  <h3>Step 2 · Ask the human the real decisions</h3>
+  <p>An agent should not guess what only you can decide. It asked four questions before building anything:</p>
+  <ul>
+    <li><b>Visuals:</b> extract the original 2D sprites (fast, but they belong to the studio), redraw in 2D, or go full 3D? <i>Answer: full 3D.</i></li>
+    <li><b>Goal:</b> private play with friends, or public Workshop upload? <i>Answer: private.</i> This matters legally: Mollo belongs to Aether Studios and his creator Giik.</li>
+    <li><b>Mod Kit:</b> can you install it now? <i>Answer: later.</i> So phase 1 stays inside Blender.</li>
+    <li><b>Scope:</b> everything at once, or in phases with tests between them? <i>Answer: phases.</i></li>
+  </ul>
+  <p>It then asked permission before spending money (image generation) and before downloading the official reference files.</p>
+
+  <div class="keep"><h3>Step 3 · Concept art</h3>
+  <p>A 3D generator needs a clean picture: one character, front view, arms away from the body ("A-pose"), plain background. The AI sent the original Rivals 1 key art to an image model (Grok, through the Higgsfield API) with a detailed description. Then it asked for the back view, using the front as reference so both match. Cost: about 19 cents.</p>
+  <div class="two">
+    <figure><img src="img/r1.jpg" alt="Original Rivals 1 key art of Mollo"><figcaption>The source: Giik's original key art.</figcaption></figure>
+    <figure><img src="img/concept_back.jpg" alt="Generated concept, back view" style="height:62mm;object-fit:contain;background:#c8c8c8"><figcaption>Generated back view, matching the front on the cover.</figcaption></figure>
+  </div></div>
+</section>
+
+<section class="chapter">
+  <h3>Step 4 · From picture to 3D model</h3>
+  <p>TRELLIS is a free research model hosted on Hugging Face. It takes images and returns a textured 3D model. Given the front and the back, it built Mollo in about two minutes: 23,000 triangles, half of the Workshop budget.</p>
+  <figure><img src="img/trellis.jpg" alt="TRELLIS mesh from four angles"><figcaption>The raw TRELLIS model. Back, three-quarter back, side, front. Note that it faces the wrong way: the first thing to fix.</figcaption></figure>
+  <p>The AI then measured the model against the docs: Rivals 2 wants characters facing a specific direction, standing on the ground, in centimeters, around 180 to 200 cm tall. It also opened the official reference skeletons of Zetterburn and Wrastor and read their bone names, so Mollo uses the same conventions as the real cast.</p>
+
+  <h3>Step 5 · The skeleton, and seven attempts</h3>
+  <p>Rigging means placing bones inside the model and deciding how much each bone pulls each point of the surface (the "weights"). This is where most beginners get stuck, and where the write-run-look loop earned its keep. The AI built a test that poses Mollo in six extreme ways (kick, leg back, arms up, crouch, twist, cape flap) and looked at the result after every change.</p>
+  <figure><img src="img/rig_v1.jpg" alt="First rig attempt, mesh torn apart"><figcaption>Attempt 1: the model tears apart at every joint.</figcaption></figure>
+  <figure><img src="img/rig_v7.jpg" alt="Final rig tests, clean deformation" style="max-height:105mm;object-fit:contain"><figcaption>Attempt 7: all six tests deform cleanly. Chapter 5 explains what went wrong in between.</figcaption></figure>
+</section>
+
+<section class="chapter">
+  <h3>Step 6 · Animation as data</h3>
+  <p>Animating 125 states by hand in Blender would take weeks. Instead, the AI described each pose as a short list of rotations, in plain directions: "lift the left thigh 75 degrees forward, bend the knee 80". A script turns these lists into keyframes. Three tricks made it work:</p>
+  <ul>
+    <li><b>Mirroring:</b> write the left arm, the right arm is computed automatically.</li>
+    <li><b>Planted feet:</b> when Mollo crouches, the feet must stay on the floor. A technique called <b>IK</b> (inverse kinematics) bends the knees automatically to keep them there.</li>
+    <li><b>Baking:</b> the result is converted into plain bone movements, the only format Unreal reliably imports.</li>
+  </ul>
+  <figure><img src="img/anim_strip.jpg" alt="Key frames of five animations" style="max-height:120mm;object-fit:contain"><figcaption>Six frames each from Run, F-tilt, N-air (cape spin), double jump (flip with the cape opened like wings) and the baseball bat special.</figcaption></figure>
+  <p>The movement set covers every state the docs list: walking, running, jumps, shields, rolls, getting hit, lying on the ground, hanging on ledges, being grabbed, holding items. These are first-pass animations, which the docs call "gameplay quality": clear poses and correct timing, not yet polished.</p>
+</section>
+
+<section class="chapter">
+  <h3>Step 7 · Attacks: frame data and hitboxes</h3>
+  <p>In a fighting game, timing is everything. Mollo's first jab hurts on frames 6 and 7, then he needs 12 frames to recover. Each attack was built from the original numbers, so every animation lasts exactly as long as in Rivals 1:</p>
+  <table>
+    <thead><tr><th>Attack</th><th>Startup / active / recovery</th><th>Damage</th><th>What Mollo does in 3D</th></tr></thead>
+    <tbody>
+      <tr><td>Jab 1</td><td>5 / 2 / 12 frames</td><td>3 %</td><td>Quick left punch</td></tr>
+      <tr><td>Forward tilt</td><td>9 / 5 / 21</td><td>9 %</td><td>Straight riot-boot kick</td></tr>
+      <tr><td>Neutral air</td><td>6 / 4 + 6 / 11</td><td>2 + 5 %</td><td>Spin with the cape-wings open</td></tr>
+      <tr><td>Up strong</td><td>13 / 4 hits / 26</td><td>2+2+2+5 %</td><td>Firework fountain over his head</td></tr>
+      <tr><td>Down special</td><td>38 / 3 + 3 / 22</td><td>6 / 11 / 16 %</td><td>Baseball bat, sweet spot at the tip</td></tr>
+    </tbody>
+  </table>
+  <p>A <b>hitbox</b> is an invisible sphere that hurts whoever touches it. Each one was attached to a bone (a fist, a foot, the bat) with a size in centimeters. Then the AI rendered every attack at its active frame with the hitboxes drawn in red, from both sides, to check they sit where the hit visually lands.</p>
+  <figure><img src="img/hitbox_a.jpg" alt="Hitbox check renders with red spheres" style="max-height:92mm;object-fit:contain"><figcaption>Hitbox check: red spheres on the active frame of each attack, seen from the left and the right.</figcaption></figure>
+
+  <h3>Step 8 · Export</h3>
+  <p>Finally, everything was exported with the exact settings from the docs: one FBX file for the model and skeleton, one for the 125 animations, four textures with the official name suffixes, and an <b>entry sheet</b> listing every number to type into Unreal for the 36 attacks. Every step is a script, so changing one pose rebuilds everything in about a minute and a half.</p>
+</section>
+
+<!-- ================= 4. HUMAN PART ================= -->
+<section class="chapter">
+  <h2><small>Chapter 4</small>What still needs you</h2>
+  <p>Even an agent with tools hits walls. These are the parts of the project that stayed (or will stay) human.</p>
+  <ul>
+    <li><b>Your accounts.</b> The Mod Kit installs through the Epic Games launcher with your login. Publishing goes through your Steam account. An AI should never handle your passwords.</li>
+    <li><b>The Unreal editor.</b> Importing, assigning materials, drawing hurtbox capsules and filling the attack assets happen in a graphical editor. The AI prepares every number and file, and you click.</li>
+    <li><b>Hidden documentation.</b> The Lua scripting reference is only visible inside the Mod Kit, not on the website. The bomb system waits for it.</li>
+    <li><b>Game feel.</b> Is the jab too slow? Does the bat feel heavy enough? Only playing tells you. The knockback values are copied from Rivals 1 and will need balancing.</li>
+    <li><b>Taste.</b> You chose 3D over 2D, private over public, phases over a big bang. Those were your calls, and the AI asked instead of guessing.</li>
+    <li><b>Rights.</b> Mollo belongs to Aether Studios and Giik. The Workshop docs ask you not to publish an imported character without the creator's permission. This build stays private.</li>
+  </ul>
+  <div class="note"><p><b>Next steps (phase 2).</b> Install the Mod Kit close to a drive root (for example <code>G:\R2ModKit</code>) and let it compile shaders, which can take an hour. Then the AI reads the Lua docs and engine files from disk, prepares the import, and writes the bomb system: four bomb types chosen by direction, a 120-frame fuse, the flare gun that detonates them, and the bat that launches them.</p></div>
+</section>
+
+<!-- ================= 5. BUG LOG ================= -->
+<section class="chapter">
+  <h2><small>Chapter 5</small>The bug log</h2>
+  <p>Things go wrong, even for an AI. Here is every problem found during the build. None could have been spotted by reading code alone: each one appeared in a render. This list is the real argument for an agent that can see its own results.</p>
+  <div class="bug"><div class="t">Torn mesh</div><div><p>The model ripped apart at every joint.</p><p>TRELLIS outputs the surface in separate pieces along its texture seams, so each piece moved on its own. Fix: weld the pieces before attaching the bones (16,000 points down to 11,500).</p></div></div>
+  <div class="bug"><div class="t">Cape glued to legs</div><div><p>When Mollo kicked, the cape stretched into a sail between his leg and the floor.</p><p>The generator had fused cape and legs into one surface. Fix: from every point, shoot a ray toward the leg bone. If it crosses another surface first, that point is cape, not leg.</p></div></div>
+  <div class="bug"><div class="t">Bones outside the legs</div><div><p>The leg bones were placed along the inner edge of the legs.</p><p>The first estimate (13 cm from the center) came from the concept art. Measuring the cream-colored fur on the model gave 24 cm. Fix: place bones from the measured fur.</p></div></div>
+  <div class="bug"><div class="t">Sideways knees</div><div><p>With planted feet, the knees pointed sideways and the legs twisted.</p><p>A trial-and-error search for the knee direction found inconsistent values. Fix: compute it with the standard formula instead.</p></div></div>
+  <div class="bug"><div class="t">Wrong lean</div><div><p>The first crouch looked like sitting on a chair. The running cape stuck out in front.</p><p>For the same rotation, bones pointing up (spine) and down (legs, cape) move in opposite directions. Fix: write the rule at the top of the pose file and flip the signs.</p></div></div>
+  <div class="bug"><div class="t">Late punches</div><div><p>Hitboxes appeared at belly height, arms not yet extended.</p><p>The strike pose was reached at the end of the hitting window instead of the start. Fix: the arm snaps into the strike on the first active frame, as in real fighting games.</p></div></div>
+  <div class="bug"><div class="t">Mirror mistake</div><div><p>The flare gun pointed at the floor; the rocket was grabbed with one hand down.</p><p>Three right-arm poses were written with the left arm's directions. Fix: audit every right-side pose.</p></div></div>
+  <div class="bug"><div class="t">Frozen opponent</div><div><p>Throws would not move the grabbed opponent.</p><p>The special bone that carries the opponent (<code>Grab_M</code>) was never animated. Fix: give each throw a hold and a release position.</p></div></div>
+  <div class="bug"><div class="t">Black props</div><div><p>The bomb, bat, can and gun texture came out fully black.</p><p>An image created by a script is lost when the file is saved, unless it is packed inside. Fix: pack it, and protect it from the shadow-baking step.</p></div></div>
+  <div class="bug"><div class="t">Still open</div><div><p>The bat is held along the forearm instead of across it. The hanging-on-ledge position is a guess until it can be compared with a real character in the editor.</p></div></div>
+</section>
+
+<!-- ================= 6. DO IT YOURSELF ================= -->
+<section class="chapter">
+  <h2><small>Chapter 6</small>Do it yourself</h2>
+  <p>You want to mod your own character? Here is the path, assuming you have never done it.</p>
+  <ol>
+    <li><b>Install the tools:</b> Steam with Rivals 2, the Epic Games launcher and the <i>Rivals of Aether II Mod Kit</i>, Blender, and Claude Code.</li>
+    <li><b>Make an empty folder</b> for your character and open Claude Code in it.</li>
+    <li><b>Give it the sources:</b> the Workshop docs link (<code>rivals2.com/workshop</code>) and anything about your character: drawings, a wiki page, a frame data sheet.</li>
+    <li><b>Ask it to read first and ask you questions.</b> Answer them carefully: 2D or 3D, private or public, what you install yourself.</li>
+    <li><b>Choose the easy road if it exists.</b> If your character already exists as a Rivals 1 Workshop mod, the Mod Kit can import it as a 2D character almost automatically. 3D is far more work.</li>
+    <li><b>Demand pictures.</b> Ask for a render or a contact sheet after every step. You do not need to understand the code; you need to see whether the kick looks like a kick.</li>
+    <li><b>Work in phases.</b> Movement first, then normal attacks, then specials. Test in game between phases.</li>
+    <li><b>Keep it reproducible.</b> Ask for scripts rather than one-off clicks, so any fix rebuilds everything.</li>
+    <li><b>Respect ownership.</b> If the character is not yours, keep the mod private unless the owner says yes.</li>
+  </ol>
+  <div class="note warn"><p><b>Set expectations.</b> AI got this character from nothing to a full set of game-ready files in one evening. That does not make it a finished character. Generated models need cleanup, script-made animations look stiff next to hand animation, and only playtesting tells you whether the character is fun. Treat the AI as a fast, tireless assistant that still needs your eyes and your decisions.</p></div>
+</section>
+
+<!-- ================= GLOSSARY ================= -->
+<section class="chapter">
+  <h2><small>Appendix</small>Glossary</h2>
+  <dl>
+    <dt>Mesh</dt><dd>The 3D shape of a character, made of thousands of small triangles.</dd>
+    <dt>Texture</dt><dd>An image wrapped around the mesh to give it color. <i>UVs</i> tell which part of the image goes where.</dd>
+    <dt>Rig / skeleton</dt><dd>Invisible bones inside the mesh. Moving a bone moves the part of the mesh attached to it.</dd>
+    <dt>Weights / skinning</dt><dd>How strongly each bone pulls each point of the mesh. Bad weights cause tearing and stretching.</dd>
+    <dt>A-pose</dt><dd>Standing straight, arms angled away from the body. The standard pose for building a model.</dd>
+    <dt>Keyframe</dt><dd>A pose saved at one moment. The computer fills in the frames between keyframes.</dd>
+    <dt>IK / FK</dt><dd>FK: you rotate each bone yourself. IK (inverse kinematics): you place the hand or foot, and the computer bends the elbow or knee.</dd>
+    <dt>Bake</dt><dd>Convert any clever setup (IK, constraints) into plain bone positions for every frame.</dd>
+    <dt>FBX</dt><dd>A common file format for sending models and animations from Blender to a game engine.</dd>
+    <dt>Frame / 60 fps</dt><dd>The game updates 60 times per second. Fighting games count everything in frames.</dd>
+    <dt>Startup / active / recovery</dt><dd>The three phases of an attack: winding up, hurting, recovering. Measured in frames.</dd>
+    <dt>Hitbox / hurtbox</dt><dd>Hitbox: the area that deals damage. Hurtbox: the area where a character can be hit.</dd>
+    <dt>BKB / KBS</dt><dd>Base knockback and knockback scaling: how far a hit launches, and how much more at high damage.</dd>
+    <dt>Strong attack</dt><dd>A chargeable smash attack. Holding the button makes it stronger.</dd>
+    <dt>Article</dt><dd>Rivals term for an object a character creates: projectiles, bombs, traps.</dd>
+    <dt>Lua</dt><dd>The scripting language the Workshop uses for custom behavior.</dd>
+    <dt>Unreal Engine</dt><dd>The game engine Rivals 2 is built on. The Mod Kit is a customized Unreal 5.8.</dd>
+    <dt>TRELLIS</dt><dd>A research AI that turns one or more images into a textured 3D model.</dd>
+    <dt>Headless</dt><dd>Running a program without its window, controlled entirely by a script. This is how the AI drove Blender.</dd>
+    <dt>Agent</dt><dd>An AI that can use tools (files, terminal, browser) to act, check its results, and correct itself.</dd>
+  </dl>
+  <p class="small" style="margin-top:6mm">Sources: Rivals 2 Workshop documentation (rivals2.com/workshop) · Rivals Academy frame data for Mollo, patch 2.1.5.6 (rivals.academy/library/mollo) · Mollo by Giik on the Rivals of Aether Steam Workshop (item 1871989159). Mollo and Rivals of Aether are property of Aether Studios. This document describes a private, non-distributed mod.</p>
+</section>
+
+</body>
+</html>
